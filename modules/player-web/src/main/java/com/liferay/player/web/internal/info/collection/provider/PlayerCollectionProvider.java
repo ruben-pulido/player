@@ -18,6 +18,7 @@ import com.liferay.info.collection.provider.CollectionQuery;
 import com.liferay.info.collection.provider.InfoCollectionProvider;
 import com.liferay.info.pagination.InfoPage;
 import com.liferay.player.web.internal.model.Player;
+import com.liferay.portal.kernel.language.LanguageUtil;
 
 import java.util.Locale;
 
@@ -39,7 +40,7 @@ public class PlayerCollectionProvider
 
 	@Override
 	public String getLabel(Locale locale) {
-		return null;
+		return LanguageUtil.get(locale, "players");
 	}
 
 }
