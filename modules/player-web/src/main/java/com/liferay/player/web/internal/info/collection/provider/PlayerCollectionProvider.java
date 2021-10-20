@@ -67,7 +67,8 @@ public class PlayerCollectionProvider
 
 		return InfoPage.of(
 			ListUtil.subList(
-				players, pagination.getStart(), pagination.getEnd()));
+				players, pagination.getStart(), pagination.getEnd()),
+			pagination, players.size());
 	}
 
 	@Override
