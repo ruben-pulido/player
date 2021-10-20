@@ -20,6 +20,8 @@ import com.liferay.info.pagination.InfoPage;
 import com.liferay.player.web.internal.model.Player;
 import com.liferay.portal.kernel.language.LanguageUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.osgi.service.component.annotations.Component;
@@ -35,12 +37,23 @@ public class PlayerCollectionProvider
 	public InfoPage<Player> getCollectionInfoPage(
 		CollectionQuery collectionQuery) {
 
-		return null;
+		List<Player> players = new ArrayList();
+
+		players.add(
+			new Player(1, "Michael Jordan", _IMAGES_URL_PREFIX + "893.png"));
+		players.add(
+			new Player(2, "Shaquille O'Neal", _IMAGES_URL_PREFIX + "406.png"));
+
+		return InfoPage.of(players);
 	}
 
 	@Override
 	public String getLabel(Locale locale) {
 		return LanguageUtil.get(locale, "players");
 	}
+
+	private static final String _IMAGES_URL_PREFIX =
+		"https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba" +
+			"/latest/260x190/";
 
 }
