@@ -17,8 +17,10 @@ package com.liferay.player.web.internal.info.collection.provider;
 import com.liferay.info.collection.provider.CollectionQuery;
 import com.liferay.info.collection.provider.InfoCollectionProvider;
 import com.liferay.info.pagination.InfoPage;
+import com.liferay.info.pagination.Pagination;
 import com.liferay.player.web.internal.model.Player;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.util.ListUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +63,11 @@ public class PlayerCollectionProvider
 		players.add(new Player(20, "Player 20", _IMAGES_URL_PREFIX + "20.png"));
 		players.add(new Player(21, "Player 21", _IMAGES_URL_PREFIX + "21.png"));
 
-		return InfoPage.of(players);
+		Pagination pagination = collectionQuery.getPagination();
+
+		return InfoPage.of(
+			ListUtil.subList(
+				players, pagination.getStart(), pagination.getEnd()));
 	}
 
 	@Override
