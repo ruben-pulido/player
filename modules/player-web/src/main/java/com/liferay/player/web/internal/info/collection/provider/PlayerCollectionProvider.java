@@ -39,10 +39,27 @@ public class PlayerCollectionProvider
 
 		List<Player> players = new ArrayList();
 
-		players.add(
-			new Player(1, "Michael Jordan", _IMAGES_URL_PREFIX + "893.png"));
-		players.add(
-			new Player(2, "Shaquille O'Neal", _IMAGES_URL_PREFIX + "406.png"));
+		players.add(new Player(1, "Player 1", _IMAGES_URL_PREFIX + "1.png"));
+		players.add(new Player(2, "Player 2", _IMAGES_URL_PREFIX + "2.png"));
+		players.add(new Player(3, "Player 3", _IMAGES_URL_PREFIX + "3.png"));
+		players.add(new Player(4, "Player 4", _IMAGES_URL_PREFIX + "4.png"));
+		players.add(new Player(5, "Player 5", _IMAGES_URL_PREFIX + "5.png"));
+		players.add(new Player(6, "Player 6", _IMAGES_URL_PREFIX + "6.png"));
+		players.add(new Player(7, "Player 7", _IMAGES_URL_PREFIX + "7.png"));
+		players.add(new Player(8, "Player 8", _IMAGES_URL_PREFIX + "8.png"));
+		players.add(new Player(9, "Player 9", _IMAGES_URL_PREFIX + "9.png"));
+		players.add(new Player(10, "Player 10", _IMAGES_URL_PREFIX + "10.png"));
+		players.add(new Player(11, "Player 11", _IMAGES_URL_PREFIX + "11.png"));
+		players.add(new Player(12, "Player 12", _IMAGES_URL_PREFIX + "12.png"));
+		players.add(new Player(13, "Player 13", _IMAGES_URL_PREFIX + "13.png"));
+		players.add(new Player(14, "Player 14", _IMAGES_URL_PREFIX + "14.png"));
+		players.add(new Player(15, "Player 15", _IMAGES_URL_PREFIX + "15.png"));
+		players.add(new Player(16, "Player 16", _IMAGES_URL_PREFIX + "16.png"));
+		players.add(new Player(17, "Player 17", _IMAGES_URL_PREFIX + "17.png"));
+		players.add(new Player(18, "Player 18", _IMAGES_URL_PREFIX + "18.png"));
+		players.add(new Player(19, "Player 19", _IMAGES_URL_PREFIX + "19.png"));
+		players.add(new Player(20, "Player 20", _IMAGES_URL_PREFIX + "20.png"));
+		players.add(new Player(21, "Player 21", _IMAGES_URL_PREFIX + "21.png"));
 
 		return InfoPage.of(players);
 	}
