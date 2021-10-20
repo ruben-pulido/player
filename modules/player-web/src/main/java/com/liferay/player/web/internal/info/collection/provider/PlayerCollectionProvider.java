@@ -14,7 +14,11 @@
 
 package com.liferay.player.web.internal.info.collection.provider;
 
+import com.liferay.info.collection.provider.CollectionQuery;
 import com.liferay.info.collection.provider.InfoCollectionProvider;
+import com.liferay.info.pagination.InfoPage;
+
+import java.util.Locale;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -23,4 +27,15 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component(immediate = true, service = InfoCollectionProvider.class)
 public class PlayerCollectionProvider implements InfoCollectionProvider {
+
+	@Override
+	public InfoPage getCollectionInfoPage(CollectionQuery collectionQuery) {
+		return null;
+	}
+
+	@Override
+	public String getLabel(Locale locale) {
+		return null;
+	}
+
 }
