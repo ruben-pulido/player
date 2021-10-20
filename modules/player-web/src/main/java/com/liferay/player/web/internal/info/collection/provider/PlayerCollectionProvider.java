@@ -17,20 +17,23 @@ package com.liferay.player.web.internal.info.collection.provider;
 import com.liferay.info.collection.provider.CollectionQuery;
 import com.liferay.info.collection.provider.InfoCollectionProvider;
 import com.liferay.info.pagination.InfoPage;
+import com.liferay.player.web.internal.model.Player;
 
 import java.util.Locale;
 
-import com.liferay.player.web.internal.model.Player;
 import org.osgi.service.component.annotations.Component;
 
 /**
  * @author Rubén Pulido
  */
 @Component(immediate = true, service = InfoCollectionProvider.class)
-public class PlayerCollectionProvider implements InfoCollectionProvider<Player> {
+public class PlayerCollectionProvider
+	implements InfoCollectionProvider<Player> {
 
 	@Override
-	public InfoPage<Player> getCollectionInfoPage(CollectionQuery collectionQuery) {
+	public InfoPage<Player> getCollectionInfoPage(
+		CollectionQuery collectionQuery) {
+
 		return null;
 	}
 
