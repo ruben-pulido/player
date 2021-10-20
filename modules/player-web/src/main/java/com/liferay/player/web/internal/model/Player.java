@@ -14,15 +14,25 @@
 
 package com.liferay.player.web.internal.model;
 
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.portal.kernel.model.ClassedModel;
+
+import java.io.Serializable;
+
 /**
  * @author Rubén Pulido
  */
-public class Player {
+public class Player implements ClassedModel {
 
 	public Player(long id, String name, String image) {
 		_id = id;
 		_name = name;
 		_image = image;
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return null;
 	}
 
 	public long getId() {
@@ -33,8 +43,27 @@ public class Player {
 		return _image;
 	}
 
+	@Override
+	public Class<?> getModelClass() {
+		return Player.class;
+	}
+
+	@Override
+	public String getModelClassName() {
+		return Player.class.getName();
+	}
+
 	public String getName() {
 		return _name;
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _id;
+	}
+
+	@Override
+	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 	}
 
 	private long _id;
