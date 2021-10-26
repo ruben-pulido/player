@@ -17,8 +17,10 @@ package com.liferay.player.web.internal.info.collection.provider;
 import com.liferay.info.collection.provider.CollectionQuery;
 import com.liferay.info.collection.provider.ConfigurableInfoCollectionProvider;
 import com.liferay.info.collection.provider.InfoCollectionProvider;
+import com.liferay.info.form.InfoForm;
 import com.liferay.info.pagination.InfoPage;
 import com.liferay.info.pagination.Pagination;
+import com.liferay.player.web.internal.info.item.fields.PlayerInfoFields;
 import com.liferay.player.web.internal.model.Player;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.ListUtil;
@@ -154,6 +156,14 @@ public class PlayerCollectionProvider
 			ListUtil.subList(
 				players, pagination.getStart(), pagination.getEnd()),
 			pagination, players.size());
+	}
+
+	@Override
+	public InfoForm getConfigurationInfoForm() {
+		return InfoForm.builder(
+		).infoFieldSetEntry(
+			PlayerInfoFields.countryInfoField
+		).build();
 	}
 
 	@Override
