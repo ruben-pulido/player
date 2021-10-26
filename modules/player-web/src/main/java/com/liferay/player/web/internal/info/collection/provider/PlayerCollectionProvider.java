@@ -15,6 +15,7 @@
 package com.liferay.player.web.internal.info.collection.provider;
 
 import com.liferay.info.collection.provider.CollectionQuery;
+import com.liferay.info.collection.provider.ConfigurableInfoCollectionProvider;
 import com.liferay.info.collection.provider.InfoCollectionProvider;
 import com.liferay.info.pagination.InfoPage;
 import com.liferay.info.pagination.Pagination;
@@ -33,7 +34,7 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component(immediate = true, service = InfoCollectionProvider.class)
 public class PlayerCollectionProvider
-	implements InfoCollectionProvider<Player> {
+	implements ConfigurableInfoCollectionProvider<Player> {
 
 	@Override
 	public InfoPage<Player> getCollectionInfoPage(
