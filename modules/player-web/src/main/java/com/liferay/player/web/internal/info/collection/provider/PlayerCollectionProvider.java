@@ -41,27 +41,111 @@ public class PlayerCollectionProvider
 
 		List<Player> players = new ArrayList();
 
-		players.add(new Player(1, "Player 1", _IMAGES_URL_PREFIX + "1.png"));
-		players.add(new Player(2, "Player 2", _IMAGES_URL_PREFIX + "2.png"));
-		players.add(new Player(3, "Player 3", _IMAGES_URL_PREFIX + "3.png"));
-		players.add(new Player(4, "Player 4", _IMAGES_URL_PREFIX + "4.png"));
-		players.add(new Player(5, "Player 5", _IMAGES_URL_PREFIX + "5.png"));
-		players.add(new Player(6, "Player 6", _IMAGES_URL_PREFIX + "6.png"));
-		players.add(new Player(7, "Player 7", _IMAGES_URL_PREFIX + "7.png"));
-		players.add(new Player(8, "Player 8", _IMAGES_URL_PREFIX + "8.png"));
-		players.add(new Player(9, "Player 9", _IMAGES_URL_PREFIX + "9.png"));
-		players.add(new Player(10, "Player 10", _IMAGES_URL_PREFIX + "10.png"));
-		players.add(new Player(11, "Player 11", _IMAGES_URL_PREFIX + "11.png"));
-		players.add(new Player(12, "Player 12", _IMAGES_URL_PREFIX + "12.png"));
-		players.add(new Player(13, "Player 13", _IMAGES_URL_PREFIX + "13.png"));
-		players.add(new Player(14, "Player 14", _IMAGES_URL_PREFIX + "14.png"));
-		players.add(new Player(15, "Player 15", _IMAGES_URL_PREFIX + "15.png"));
-		players.add(new Player(16, "Player 16", _IMAGES_URL_PREFIX + "16.png"));
-		players.add(new Player(17, "Player 17", _IMAGES_URL_PREFIX + "17.png"));
-		players.add(new Player(18, "Player 18", _IMAGES_URL_PREFIX + "18.png"));
-		players.add(new Player(19, "Player 19", _IMAGES_URL_PREFIX + "19.png"));
-		players.add(new Player(20, "Player 20", _IMAGES_URL_PREFIX + "20.png"));
-		players.add(new Player(21, "Player 21", _IMAGES_URL_PREFIX + "21.png"));
+		players.add(
+			new Player(
+				1, "Michael Jordan",
+				_IMAGES_URL_PREFIX +
+					"v1538355600/primary/ovfsumgucccbmte6jtor"));
+		players.add(
+			new Player(
+				2, "Scottie Pippen",
+				_IMAGES_URL_PREFIX +
+					"v1538355600/primary/wwnxbs0gbkfde7e5cexr"));
+		players.add(
+			new Player(
+				3, "Pau Gasol",
+				_IMAGES_URL_PREFIX +
+					"v1538355600/primary/kvuhmguznpjsyksbyuf5"));
+		players.add(
+			new Player(
+				4, "Marc Gasol",
+				_IMAGES_URL_PREFIX +
+					"v1538355600/primary/jexpxpfukhtzak7yxsnx"));
+		players.add(
+			new Player(
+				5, "Juan Carlos Navarro",
+				_IMAGES_URL_PREFIX +
+					"v1538355600/primary/h86v1opzpoqp3d73xnua"));
+		players.add(
+			new Player(
+				6, "Ricky Rubio",
+				_IMAGES_URL_PREFIX +
+					"v1624370295/primary/bffqkclthzqcyeedxgod"));
+		players.add(
+			new Player(
+				7, "Earvin 'Magic' Johnson",
+				_IMAGES_URL_PREFIX +
+					"v1538355600/primary/yljqonedpamkg1oorrcf"));
+		players.add(
+			new Player(
+				8, "Larry Bird",
+				_IMAGES_URL_PREFIX +
+					"v1538355600/primary/gxutmqwibagxrkxgecjc"));
+		players.add(
+			new Player(
+				9, "Luis Scola",
+				_IMAGES_URL_PREFIX +
+					"v1538355600/primary/peryz8keyefpofbuqbvf"));
+		players.add(
+			new Player(
+				10, "Rudy Fernández",
+				_IMAGES_URL_PREFIX +
+					"v1538355600/primary/on2z2ltua1fvmigl53nd"));
+		players.add(
+			new Player(
+				11, "Charles Barkley",
+				_IMAGES_URL_PREFIX +
+					"v1538355600/primary/n2ia3gbwzyrtzuvltdoj"));
+		players.add(
+			new Player(
+				12, "Clyde Drexler",
+				_IMAGES_URL_PREFIX +
+					"v1538355600/primary/s6fycdawxkzerv5knxwu"));
+		players.add(
+			new Player(
+				13, "Patrick Ewing",
+				_IMAGES_URL_PREFIX +
+					"v1538355600/primary/fehjyvrjysw92yzzrnc9"));
+		players.add(
+			new Player(
+				14, "Kobe Bryant",
+				_IMAGES_URL_PREFIX +
+					"v1580072853/primary/wep96p00aavep8nofb79"));
+		players.add(
+			new Player(
+				15, "David Robinson",
+				_IMAGES_URL_PREFIX +
+					"v1538355600/primary/lj7rijgfcq9ne4ofvxag"));
+		players.add(
+			new Player(
+				16, "Ming Yao",
+				_IMAGES_URL_PREFIX +
+					"v1538355600/primary/kgbfmwi2xxjaoiod0kci"));
+		players.add(
+			new Player(
+				17, "Karl Malone",
+				_IMAGES_URL_PREFIX +
+					"v1538355600/primary/jhkeh6yamdyemw1ljosn"));
+		players.add(
+			new Player(
+				18, "John Stockton",
+				_IMAGES_URL_PREFIX +
+					"v1538355600/primary/gzgmvlnnlqkczylsypqw"));
+		players.add(
+			new Player(
+				19, "Kevin Durant",
+				_IMAGES_URL_PREFIX +
+					"v1538355600/primary/ygq72vralnjrxsq7oely"));
+		players.add(
+			new Player(
+				20, "James Harden",
+				_IMAGES_URL_PREFIX +
+					"v1538355600/primary/cidcibl9iadtf14m8irm"));
+		players.add(
+			new Player(
+				21, "Sergio Llull",
+				_IMAGES_URL_PREFIX +
+					"v1538355600/primary/qkuita037wkgkvd8axrl"));
 
 		Pagination pagination = collectionQuery.getPagination();
 
@@ -77,7 +161,6 @@ public class PlayerCollectionProvider
 	}
 
 	private static final String _IMAGES_URL_PREFIX =
-		"https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba" +
-			"/latest/260x190/";
+		"https://img.olympicchannel.com/images/image/private/t_1-1_600/f_auto/";
 
 }
