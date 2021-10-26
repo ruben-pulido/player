@@ -39,6 +39,8 @@ public class PlayerInfoItemFormProvider
 				PlayerInfoFields.nameInfoField
 			).infoFieldSetEntry(
 				PlayerInfoFields.imageInfoField
+			).infoFieldSetEntry(
+				PlayerInfoFields.countryInfoField
 			).labelInfoLocalizedValue(
 				InfoLocalizedValue.localize(PlayerInfoFields.class, "player")
 			).build()

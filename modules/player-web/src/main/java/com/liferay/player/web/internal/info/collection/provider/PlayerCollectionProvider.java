@@ -44,108 +44,108 @@ public class PlayerCollectionProvider
 		players.add(
 			new Player(
 				1, "Michael Jordan",
-				_IMAGES_URL_PREFIX +
-					"v1538355600/primary/ovfsumgucccbmte6jtor"));
+				_IMAGES_URL_PREFIX + "v1538355600/primary/ovfsumgucccbmte6jtor",
+				"USA"));
 		players.add(
 			new Player(
 				2, "Scottie Pippen",
-				_IMAGES_URL_PREFIX +
-					"v1538355600/primary/wwnxbs0gbkfde7e5cexr"));
+				_IMAGES_URL_PREFIX + "v1538355600/primary/wwnxbs0gbkfde7e5cexr",
+				"USA"));
 		players.add(
 			new Player(
 				3, "Pau Gasol",
-				_IMAGES_URL_PREFIX +
-					"v1538355600/primary/kvuhmguznpjsyksbyuf5"));
+				_IMAGES_URL_PREFIX + "v1538355600/primary/kvuhmguznpjsyksbyuf5",
+				"Spain"));
 		players.add(
 			new Player(
 				4, "Marc Gasol",
-				_IMAGES_URL_PREFIX +
-					"v1538355600/primary/jexpxpfukhtzak7yxsnx"));
+				_IMAGES_URL_PREFIX + "v1538355600/primary/jexpxpfukhtzak7yxsnx",
+				"Spain"));
 		players.add(
 			new Player(
 				5, "Juan Carlos Navarro",
-				_IMAGES_URL_PREFIX +
-					"v1538355600/primary/h86v1opzpoqp3d73xnua"));
+				_IMAGES_URL_PREFIX + "v1538355600/primary/h86v1opzpoqp3d73xnua",
+				"Spain"));
 		players.add(
 			new Player(
 				6, "Ricky Rubio",
-				_IMAGES_URL_PREFIX +
-					"v1624370295/primary/bffqkclthzqcyeedxgod"));
+				_IMAGES_URL_PREFIX + "v1624370295/primary/bffqkclthzqcyeedxgod",
+				"Spain"));
 		players.add(
 			new Player(
 				7, "Earvin 'Magic' Johnson",
-				_IMAGES_URL_PREFIX +
-					"v1538355600/primary/yljqonedpamkg1oorrcf"));
+				_IMAGES_URL_PREFIX + "v1538355600/primary/yljqonedpamkg1oorrcf",
+				"USA"));
 		players.add(
 			new Player(
 				8, "Larry Bird",
-				_IMAGES_URL_PREFIX +
-					"v1538355600/primary/gxutmqwibagxrkxgecjc"));
+				_IMAGES_URL_PREFIX + "v1538355600/primary/gxutmqwibagxrkxgecjc",
+				"USA"));
 		players.add(
 			new Player(
 				9, "Luis Scola",
-				_IMAGES_URL_PREFIX +
-					"v1538355600/primary/peryz8keyefpofbuqbvf"));
+				_IMAGES_URL_PREFIX + "v1538355600/primary/peryz8keyefpofbuqbvf",
+				"Argentina"));
 		players.add(
 			new Player(
 				10, "Rudy Fernández",
-				_IMAGES_URL_PREFIX +
-					"v1538355600/primary/on2z2ltua1fvmigl53nd"));
+				_IMAGES_URL_PREFIX + "v1538355600/primary/on2z2ltua1fvmigl53nd",
+				"Spain"));
 		players.add(
 			new Player(
 				11, "Charles Barkley",
-				_IMAGES_URL_PREFIX +
-					"v1538355600/primary/n2ia3gbwzyrtzuvltdoj"));
+				_IMAGES_URL_PREFIX + "v1538355600/primary/n2ia3gbwzyrtzuvltdoj",
+				"USA"));
 		players.add(
 			new Player(
 				12, "Clyde Drexler",
-				_IMAGES_URL_PREFIX +
-					"v1538355600/primary/s6fycdawxkzerv5knxwu"));
+				_IMAGES_URL_PREFIX + "v1538355600/primary/s6fycdawxkzerv5knxwu",
+				"USA"));
 		players.add(
 			new Player(
 				13, "Patrick Ewing",
-				_IMAGES_URL_PREFIX +
-					"v1538355600/primary/fehjyvrjysw92yzzrnc9"));
+				_IMAGES_URL_PREFIX + "v1538355600/primary/fehjyvrjysw92yzzrnc9",
+				"USA"));
 		players.add(
 			new Player(
 				14, "Kobe Bryant",
-				_IMAGES_URL_PREFIX +
-					"v1580072853/primary/wep96p00aavep8nofb79"));
+				_IMAGES_URL_PREFIX + "v1580072853/primary/wep96p00aavep8nofb79",
+				"USA"));
 		players.add(
 			new Player(
 				15, "David Robinson",
-				_IMAGES_URL_PREFIX +
-					"v1538355600/primary/lj7rijgfcq9ne4ofvxag"));
+				_IMAGES_URL_PREFIX + "v1538355600/primary/lj7rijgfcq9ne4ofvxag",
+				"USA"));
 		players.add(
 			new Player(
 				16, "Ming Yao",
-				_IMAGES_URL_PREFIX +
-					"v1538355600/primary/kgbfmwi2xxjaoiod0kci"));
+				_IMAGES_URL_PREFIX + "v1538355600/primary/kgbfmwi2xxjaoiod0kci",
+				"China"));
 		players.add(
 			new Player(
 				17, "Karl Malone",
-				_IMAGES_URL_PREFIX +
-					"v1538355600/primary/jhkeh6yamdyemw1ljosn"));
+				_IMAGES_URL_PREFIX + "v1538355600/primary/jhkeh6yamdyemw1ljosn",
+				"USA"));
 		players.add(
 			new Player(
 				18, "John Stockton",
-				_IMAGES_URL_PREFIX +
-					"v1538355600/primary/gzgmvlnnlqkczylsypqw"));
+				_IMAGES_URL_PREFIX + "v1538355600/primary/gzgmvlnnlqkczylsypqw",
+				"USA"));
 		players.add(
 			new Player(
 				19, "Kevin Durant",
-				_IMAGES_URL_PREFIX +
-					"v1538355600/primary/ygq72vralnjrxsq7oely"));
+				_IMAGES_URL_PREFIX + "v1538355600/primary/ygq72vralnjrxsq7oely",
+				"USA"));
 		players.add(
 			new Player(
 				20, "James Harden",
-				_IMAGES_URL_PREFIX +
-					"v1538355600/primary/cidcibl9iadtf14m8irm"));
+				_IMAGES_URL_PREFIX + "v1538355600/primary/cidcibl9iadtf14m8irm",
+				"USA"));
 		players.add(
 			new Player(
 				21, "Sergio Llull",
-				_IMAGES_URL_PREFIX +
-					"v1538355600/primary/qkuita037wkgkvd8axrl"));
+				_IMAGES_URL_PREFIX + "v1538355600/primary/qkuita037wkgkvd8axrl",
+				"Spain"));
 
 		Pagination pagination = collectionQuery.getPagination();
 

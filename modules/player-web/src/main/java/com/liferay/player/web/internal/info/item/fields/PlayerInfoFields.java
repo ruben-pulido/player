@@ -25,6 +25,15 @@ import com.liferay.player.web.internal.model.Player;
  */
 public interface PlayerInfoFields {
 
+	public final InfoField<TextInfoFieldType> countryInfoField =
+		InfoField.builder(
+		).infoFieldType(
+			TextInfoFieldType.INSTANCE
+		).name(
+			"country"
+		).labelInfoLocalizedValue(
+			InfoLocalizedValue.localize(Player.class, "country")
+		).build();
 	public final InfoField<ImageInfoFieldType> imageInfoField =
 		InfoField.builder(
 		).infoFieldType(

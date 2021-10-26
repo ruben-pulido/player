@@ -49,11 +49,14 @@ public class PlayerInfoItemFieldValuesProvider
 
 		infoFieldValues.add(
 			new InfoFieldValue<>(
+				PlayerInfoFields.imageInfoField,
+				new WebImage(player.getImage())));
+		infoFieldValues.add(
+			new InfoFieldValue<>(
 				PlayerInfoFields.nameInfoField, player.getName()));
 		infoFieldValues.add(
 			new InfoFieldValue<>(
-				PlayerInfoFields.imageInfoField,
-				new WebImage(player.getImage())));
+				PlayerInfoFields.countryInfoField, player.getName()));
 
 		return infoFieldValues;
 	}
