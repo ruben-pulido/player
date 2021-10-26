@@ -23,11 +23,16 @@ import com.liferay.info.pagination.Pagination;
 import com.liferay.player.web.internal.info.item.fields.PlayerInfoFields;
 import com.liferay.player.web.internal.model.Player;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -152,10 +157,32 @@ public class PlayerCollectionProvider
 
 		Pagination pagination = collectionQuery.getPagination();
 
+		List<Player> filteredPlayers = ListUtil.copy(players);
+
+		Optional<Map<String, String[]>> configurationOptional =
+			collectionQuery.getConfigurationOptional();
+
+		if (configurationOptional.isPresent()) {
+			Map<String, String[]> configurationMap =
+				configurationOptional.get();
+
+			String[] countries = configurationMap.get(
+				PlayerInfoFields.countryInfoField.getName());
+
+			Stream<Player> stream = filteredPlayers.stream();
+
+			filteredPlayers = stream.filter(
+				player -> ArrayUtil.contains(countries, player.getCountry())
+			).collect(
+				Collectors.toList()
+			);
+		}
+
+		List<Player> pageFilteredPlayers = ListUtil.subList(
+			filteredPlayers, pagination.getStart(), pagination.getEnd());
+
 		return InfoPage.of(
-			ListUtil.subList(
-				players, pagination.getStart(), pagination.getEnd()),
-			pagination, players.size());
+			pageFilteredPlayers, pagination, filteredPlayers.size());
 	}
 
 	@Override
