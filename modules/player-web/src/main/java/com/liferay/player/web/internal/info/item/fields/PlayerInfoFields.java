@@ -16,25 +16,31 @@ package com.liferay.player.web.internal.info.item.fields;
 
 import com.liferay.info.field.InfoField;
 import com.liferay.info.field.type.ImageInfoFieldType;
+import com.liferay.info.field.type.SelectInfoFieldType;
 import com.liferay.info.field.type.TextInfoFieldType;
 import com.liferay.info.localized.InfoLocalizedValue;
 import com.liferay.player.web.internal.model.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Rubén Pulido
  */
-public interface PlayerInfoFields {
+public class PlayerInfoFields {
 
-	public final InfoField<TextInfoFieldType> countryInfoField =
+	public static final InfoField<SelectInfoFieldType> countryInfoField =
 		InfoField.builder(
 		).infoFieldType(
-			TextInfoFieldType.INSTANCE
+			SelectInfoFieldType.INSTANCE
 		).name(
 			"country"
 		).labelInfoLocalizedValue(
 			InfoLocalizedValue.localize(Player.class, "country")
+		).attribute(
+			SelectInfoFieldType.OPTIONS, _getCountryOptions()
 		).build();
-	public final InfoField<ImageInfoFieldType> imageInfoField =
+	public static final InfoField<ImageInfoFieldType> imageInfoField =
 		InfoField.builder(
 		).infoFieldType(
 			ImageInfoFieldType.INSTANCE
@@ -43,13 +49,25 @@ public interface PlayerInfoFields {
 		).labelInfoLocalizedValue(
 			InfoLocalizedValue.localize(Player.class, "image")
 		).build();
-	public final InfoField<TextInfoFieldType> nameInfoField = InfoField.builder(
-	).infoFieldType(
-		TextInfoFieldType.INSTANCE
-	).name(
-		"name"
-	).labelInfoLocalizedValue(
-		InfoLocalizedValue.localize(Player.class, "name")
-	).build();
+	public static final InfoField<TextInfoFieldType> nameInfoField =
+		InfoField.builder(
+		).infoFieldType(
+			TextInfoFieldType.INSTANCE
+		).name(
+			"name"
+		).labelInfoLocalizedValue(
+			InfoLocalizedValue.localize(Player.class, "name")
+		).build();
+
+	private static List<SelectInfoFieldType.Option> _getCountryOptions() {
+		List<SelectInfoFieldType.Option> options = new ArrayList();
+
+		options.add(new SelectInfoFieldType.Option("Argentina", "Argentina"));
+		options.add(new SelectInfoFieldType.Option("China", "China"));
+		options.add(new SelectInfoFieldType.Option("Spain", "Spain"));
+		options.add(new SelectInfoFieldType.Option("USA", "USA"));
+
+		return options;
+	}
 
 }
