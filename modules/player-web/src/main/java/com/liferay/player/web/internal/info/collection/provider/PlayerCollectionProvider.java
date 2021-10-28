@@ -16,6 +16,7 @@ package com.liferay.player.web.internal.info.collection.provider;
 
 import com.liferay.info.collection.provider.CollectionQuery;
 import com.liferay.info.collection.provider.ConfigurableInfoCollectionProvider;
+import com.liferay.info.collection.provider.FilteredInfoCollectionProvider;
 import com.liferay.info.collection.provider.InfoCollectionProvider;
 import com.liferay.info.form.InfoForm;
 import com.liferay.info.pagination.InfoPage;
@@ -42,7 +43,8 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component(immediate = true, service = InfoCollectionProvider.class)
 public class PlayerCollectionProvider
-	implements ConfigurableInfoCollectionProvider<Player> {
+	implements ConfigurableInfoCollectionProvider<Player>,
+			   FilteredInfoCollectionProvider<Player> {
 
 	@Override
 	public InfoPage<Player> getCollectionInfoPage(
