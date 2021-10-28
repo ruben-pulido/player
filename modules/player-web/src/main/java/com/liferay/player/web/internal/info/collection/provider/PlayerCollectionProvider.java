@@ -61,136 +61,150 @@ public class PlayerCollectionProvider
 			new Player(
 				1, "Michael Jordan",
 				_IMAGES_URL_PREFIX + "v1538355600/primary/ovfsumgucccbmte6jtor",
-				"USA", new Olympics[] {_OLYMPICS_1984, _OLYMPICS_1992}));
+				"USA", new Olympics[] {_OLYMPICS_1984, _OLYMPICS_1992},
+				new int[] {1984, 1992}, new int[0], new int[0]));
 		players.add(
 			new Player(
 				2, "Scottie Pippen",
 				_IMAGES_URL_PREFIX + "v1538355600/primary/wwnxbs0gbkfde7e5cexr",
-				"USA", new Olympics[] {_OLYMPICS_1992, _OLYMPICS_1996}));
+				"USA", new Olympics[] {_OLYMPICS_1992, _OLYMPICS_1996},
+				new int[] {1992, 1996}, new int[0], new int[0]));
 		players.add(
 			new Player(
 				3, "Pau Gasol",
 				_IMAGES_URL_PREFIX + "v1538355600/primary/kvuhmguznpjsyksbyuf5",
 				"Spain",
 				new Olympics[] {
-					_OLYMPICS_2008, _OLYMPICS_2012, _OLYMPICS_2016,
-					_OLYMPICS_2021
-				}));
+					_OLYMPICS_2004, _OLYMPICS_2008, _OLYMPICS_2012,
+					_OLYMPICS_2016, _OLYMPICS_2021
+				},
+				new int[0], new int[] {2008, 2012}, new int[] {2016}));
 		players.add(
 			new Player(
 				4, "Marc Gasol",
 				_IMAGES_URL_PREFIX + "v1538355600/primary/jexpxpfukhtzak7yxsnx",
 				"Spain",
-				new Olympics[] {
-					_OLYMPICS_2008, _OLYMPICS_2012, _OLYMPICS_2021
-				}));
+				new Olympics[] {_OLYMPICS_2008, _OLYMPICS_2012, _OLYMPICS_2021},
+				new int[0], new int[] {2008, 2012}, new int[0]));
 		players.add(
 			new Player(
 				5, "Juan Carlos Navarro",
 				_IMAGES_URL_PREFIX + "v1538355600/primary/h86v1opzpoqp3d73xnua",
 				"Spain",
 				new Olympics[] {
-					_OLYMPICS_2008, _OLYMPICS_2012, _OLYMPICS_2016
-				}));
+					_OLYMPICS_2000, _OLYMPICS_2004, _OLYMPICS_2008,
+					_OLYMPICS_2012, _OLYMPICS_2016
+				},
+				new int[0], new int[] {2008, 2012}, new int[] {2016}));
 		players.add(
 			new Player(
 				6, "Ricky Rubio",
 				_IMAGES_URL_PREFIX + "v1624370295/primary/bffqkclthzqcyeedxgod",
 				"Spain",
-				new Olympics[] {
-					_OLYMPICS_2008, _OLYMPICS_2016, _OLYMPICS_2021
-				}));
+				new Olympics[] {_OLYMPICS_2008, _OLYMPICS_2016, _OLYMPICS_2021},
+				new int[0], new int[] {2008}, new int[] {2016}));
 		players.add(
 			new Player(
 				7, "Earvin 'Magic' Johnson",
 				_IMAGES_URL_PREFIX + "v1538355600/primary/yljqonedpamkg1oorrcf",
-				"USA", new Olympics[] {_OLYMPICS_1992}));
+				"USA", new Olympics[] {_OLYMPICS_1992}, new int[] {1992},
+				new int[0], new int[0]));
 		players.add(
 			new Player(
 				8, "Larry Bird",
 				_IMAGES_URL_PREFIX + "v1538355600/primary/gxutmqwibagxrkxgecjc",
-				"USA", new Olympics[] {_OLYMPICS_1992}));
+				"USA", new Olympics[] {_OLYMPICS_1992}, new int[] {1992},
+				new int[0], new int[0]));
 		players.add(
 			new Player(
 				9, "Luis Scola",
 				_IMAGES_URL_PREFIX + "v1538355600/primary/peryz8keyefpofbuqbvf",
-				"Argentina", new Olympics[] {_OLYMPICS_2004, _OLYMPICS_2008}));
+				"Argentina",
+				new Olympics[] {
+					_OLYMPICS_2004, _OLYMPICS_2008, _OLYMPICS_2012,
+					_OLYMPICS_2016, _OLYMPICS_2021
+				},
+				new int[] {2004}, new int[0], new int[2008]));
 		players.add(
 			new Player(
 				10, "Rudy Fernández",
 				_IMAGES_URL_PREFIX + "v1538355600/primary/on2z2ltua1fvmigl53nd",
 				"Spain",
 				new Olympics[] {
-					_OLYMPICS_2008, _OLYMPICS_2012, _OLYMPICS_2016,
-					_OLYMPICS_2021
-				}));
+					_OLYMPICS_2004, _OLYMPICS_2008, _OLYMPICS_2012,
+					_OLYMPICS_2016, _OLYMPICS_2021
+				},
+				new int[0], new int[] {2008, 2012}, new int[] {2016}));
 		players.add(
 			new Player(
 				11, "Charles Barkley",
 				_IMAGES_URL_PREFIX + "v1538355600/primary/n2ia3gbwzyrtzuvltdoj",
-				"USA", new Olympics[] {_OLYMPICS_1992, _OLYMPICS_1996}));
+				"USA", new Olympics[] {_OLYMPICS_1992, _OLYMPICS_1996},
+				new int[] {1992, 1996}, new int[0], new int[0]));
 		players.add(
 			new Player(
 				12, "Clyde Drexler",
 				_IMAGES_URL_PREFIX + "v1538355600/primary/s6fycdawxkzerv5knxwu",
-				"USA", new Olympics[] {_OLYMPICS_1992}));
+				"USA", new Olympics[] {_OLYMPICS_1992}, new int[] {1984, 1992},
+				new int[0], new int[0]));
 		players.add(
 			new Player(
 				13, "Patrick Ewing",
 				_IMAGES_URL_PREFIX + "v1538355600/primary/fehjyvrjysw92yzzrnc9",
-				"USA", new Olympics[] {_OLYMPICS_1984, _OLYMPICS_1992}));
+				"USA", new Olympics[] {_OLYMPICS_1984, _OLYMPICS_1992},
+				new int[] {1984, 1992}, new int[0], new int[0]));
 		players.add(
 			new Player(
 				14, "Kobe Bryant",
 				_IMAGES_URL_PREFIX + "v1580072853/primary/wep96p00aavep8nofb79",
-				"USA", new Olympics[] {_OLYMPICS_2008, _OLYMPICS_2012}));
+				"USA", new Olympics[] {_OLYMPICS_2008, _OLYMPICS_2012},
+				new int[] {2008, 2012}, new int[0], new int[0]));
 		players.add(
 			new Player(
 				15, "David Robinson",
 				_IMAGES_URL_PREFIX + "v1538355600/primary/lj7rijgfcq9ne4ofvxag",
 				"USA",
-				new Olympics[] {
-					_OLYMPICS_1988, _OLYMPICS_1992, _OLYMPICS_1996
-				}));
+				new Olympics[] {_OLYMPICS_1988, _OLYMPICS_1992, _OLYMPICS_1996},
+				new int[] {1992, 1996}, new int[0], new int[] {1988}));
 		players.add(
 			new Player(
 				16, "Ming Yao",
 				_IMAGES_URL_PREFIX + "v1538355600/primary/kgbfmwi2xxjaoiod0kci",
 				"China",
-				new Olympics[] {
-					_OLYMPICS_2000, _OLYMPICS_2004, _OLYMPICS_2008
-				}));
+				new Olympics[] {_OLYMPICS_2000, _OLYMPICS_2004, _OLYMPICS_2008},
+				new int[0], new int[0], new int[0]));
 		players.add(
 			new Player(
 				17, "Karl Malone",
 				_IMAGES_URL_PREFIX + "v1538355600/primary/jhkeh6yamdyemw1ljosn",
-				"USA", new Olympics[] {_OLYMPICS_1992, _OLYMPICS_1996}));
+				"USA", new Olympics[] {_OLYMPICS_1992, _OLYMPICS_1996},
+				new int[] {1992, 1996}, new int[0], new int[0]));
 		players.add(
 			new Player(
 				18, "John Stockton",
 				_IMAGES_URL_PREFIX + "v1538355600/primary/gzgmvlnnlqkczylsypqw",
-				"USA", new Olympics[] {_OLYMPICS_1992, _OLYMPICS_1996}));
+				"USA", new Olympics[] {_OLYMPICS_1992, _OLYMPICS_1996},
+				new int[] {1992, 1996}, new int[0], new int[0]));
 		players.add(
 			new Player(
 				19, "Kevin Durant",
 				_IMAGES_URL_PREFIX + "v1538355600/primary/ygq72vralnjrxsq7oely",
 				"USA",
-				new Olympics[] {
-					_OLYMPICS_2012, _OLYMPICS_2016, _OLYMPICS_2021
-				}));
+				new Olympics[] {_OLYMPICS_2012, _OLYMPICS_2016, _OLYMPICS_2021},
+				new int[] {2012, 2016, 2021}, new int[0], new int[0]));
 		players.add(
 			new Player(
 				20, "James Harden",
 				_IMAGES_URL_PREFIX + "v1538355600/primary/cidcibl9iadtf14m8irm",
-				"USA", new Olympics[] {_OLYMPICS_2012}));
+				"USA", new Olympics[] {_OLYMPICS_2012}, new int[] {2012},
+				new int[0], new int[0]));
 		players.add(
 			new Player(
 				21, "Sergio Llull",
 				_IMAGES_URL_PREFIX + "v1538355600/primary/qkuita037wkgkvd8axrl",
 				"Spain",
-				new Olympics[] {
-					_OLYMPICS_2012, _OLYMPICS_2016, _OLYMPICS_2021
-				}));
+				new Olympics[] {_OLYMPICS_2012, _OLYMPICS_2016, _OLYMPICS_2021},
+				new int[0], new int[] {2012}, new int[] {2016}));
 
 		Pagination pagination = collectionQuery.getPagination();
 
