@@ -25,14 +25,21 @@ import java.io.Serializable;
 public class Player implements ClassedModel {
 
 	public Player(
-		long id, String name, String image, String country,
-		Olympics[] olympics) {
+		long id, String name, String image, String country, Olympics[] olympics,
+		int[] goldMedals, int[] silverMedals, int[] bronzeMedals) {
 
 		_id = id;
 		_name = name;
 		_image = image;
 		_country = country;
 		_olympics = olympics;
+		_goldMedals = goldMedals;
+		_silverMedals = silverMedals;
+		_bronzeMedals = bronzeMedals;
+	}
+
+	public int[] getBronzeMedals() {
+		return _bronzeMedals;
 	}
 
 	public String getCountry() {
@@ -42,6 +49,10 @@ public class Player implements ClassedModel {
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return null;
+	}
+
+	public int[] getGoldMedals() {
+		return _goldMedals;
 	}
 
 	public long getId() {
@@ -75,14 +86,21 @@ public class Player implements ClassedModel {
 		return _id;
 	}
 
+	public int[] getSilverMedals() {
+		return _silverMedals;
+	}
+
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 	}
 
+	private int[] _bronzeMedals;
 	private String _country;
+	private int[] _goldMedals;
 	private long _id;
 	private String _image;
 	private String _name;
 	private Olympics[] _olympics;
+	private int[] _silverMedals;
 
 }
