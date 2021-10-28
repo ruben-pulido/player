@@ -39,6 +39,8 @@ public class PlayerInfoFields {
 			InfoLocalizedValue.localize(Player.class, "country")
 		).attribute(
 			SelectInfoFieldType.OPTIONS, _getCountryOptions()
+		).attribute(
+			SelectInfoFieldType.MULTIPLE, true
 		).build();
 	public static final InfoField<ImageInfoFieldType> imageInfoField =
 		InfoField.builder(
