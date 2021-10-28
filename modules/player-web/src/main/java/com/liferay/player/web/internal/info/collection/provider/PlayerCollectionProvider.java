@@ -29,8 +29,11 @@ import com.liferay.player.web.internal.model.Player;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -210,6 +213,41 @@ public class PlayerCollectionProvider
 			).collect(
 				Collectors.toList()
 			);
+		}
+
+		Optional<KeywordsInfoFilter> keywordsInfoFilterOptional =
+			collectionQuery.getInfoFilterOptional(KeywordsInfoFilter.class);
+
+		if (keywordsInfoFilterOptional.isPresent()) {
+			KeywordsInfoFilter keywordsInfoFilter =
+				keywordsInfoFilterOptional.get();
+
+			String keywords = keywordsInfoFilter.getKeywords();
+
+			if (Validator.isNotNull(keywords)) {
+				String[] keywordsArray = keywords.split(", ");
+
+				if (keywordsArray.length > 0) {
+					Stream<Player> stream = filteredPlayers.stream();
+
+					filteredPlayers = stream.filter(
+						player -> {
+							List<String> olympicCities = Stream.of(
+								player.getOlympics()
+							).map(
+								Olympics::getCity
+							).collect(
+								Collectors.toList()
+							);
+
+							return olympicCities.containsAll(
+								Arrays.asList(keywordsArray));
+						}
+					).collect(
+						Collectors.toList()
+					);
+				}
+			}
 		}
 
 		List<Player> pageFilteredPlayers = ListUtil.subList(
