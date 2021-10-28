@@ -286,7 +286,12 @@ public class PlayerCollectionProvider
 
 	@Override
 	public List<InfoFilter> getSupportedInfoFilters() {
-		return Collections.singletonList(new KeywordsInfoFilter());
+		List<InfoFilter> infoFilters = new ArrayList<>();
+
+		infoFilters.add(new CategoriesInfoFilter());
+		infoFilters.add(new KeywordsInfoFilter());
+
+		return infoFilters;
 	}
 
 	private static final String _IMAGES_URL_PREFIX =
