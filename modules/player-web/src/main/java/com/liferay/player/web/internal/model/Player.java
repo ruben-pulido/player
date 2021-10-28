@@ -24,11 +24,15 @@ import java.io.Serializable;
  */
 public class Player implements ClassedModel {
 
-	public Player(long id, String name, String image, String country) {
+	public Player(
+		long id, String name, String image, String country,
+		Olympics[] olympics) {
+
 		_id = id;
 		_name = name;
 		_image = image;
 		_country = country;
+		_olympics = olympics;
 	}
 
 	public String getCountry() {
@@ -62,6 +66,10 @@ public class Player implements ClassedModel {
 		return _name;
 	}
 
+	public Olympics[] getOlympics() {
+		return _olympics;
+	}
+
 	@Override
 	public Serializable getPrimaryKeyObj() {
 		return _id;
@@ -75,5 +83,6 @@ public class Player implements ClassedModel {
 	private long _id;
 	private String _image;
 	private String _name;
+	private Olympics[] _olympics;
 
 }
