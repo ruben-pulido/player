@@ -18,6 +18,8 @@ import com.liferay.info.collection.provider.CollectionQuery;
 import com.liferay.info.collection.provider.ConfigurableInfoCollectionProvider;
 import com.liferay.info.collection.provider.FilteredInfoCollectionProvider;
 import com.liferay.info.collection.provider.InfoCollectionProvider;
+import com.liferay.info.filter.InfoFilter;
+import com.liferay.info.filter.KeywordsInfoFilter;
 import com.liferay.info.form.InfoForm;
 import com.liferay.info.pagination.InfoPage;
 import com.liferay.info.pagination.Pagination;
@@ -228,6 +230,11 @@ public class PlayerCollectionProvider
 	@Override
 	public String getLabel(Locale locale) {
 		return LanguageUtil.get(locale, "players");
+	}
+
+	@Override
+	public List<InfoFilter> getSupportedInfoFilters() {
+		return Collections.singletonList(new KeywordsInfoFilter());
 	}
 
 	private static final String _IMAGES_URL_PREFIX =
