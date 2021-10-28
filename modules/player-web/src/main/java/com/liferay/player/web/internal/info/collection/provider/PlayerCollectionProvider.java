@@ -14,10 +14,13 @@
 
 package com.liferay.player.web.internal.info.collection.provider;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.service.AssetCategoryService;
 import com.liferay.info.collection.provider.CollectionQuery;
 import com.liferay.info.collection.provider.ConfigurableInfoCollectionProvider;
 import com.liferay.info.collection.provider.FilteredInfoCollectionProvider;
 import com.liferay.info.collection.provider.InfoCollectionProvider;
+import com.liferay.info.filter.CategoriesInfoFilter;
 import com.liferay.info.filter.InfoFilter;
 import com.liferay.info.filter.KeywordsInfoFilter;
 import com.liferay.info.form.InfoForm;
@@ -26,22 +29,27 @@ import com.liferay.info.pagination.Pagination;
 import com.liferay.player.web.internal.info.item.fields.PlayerInfoFields;
 import com.liferay.player.web.internal.model.Olympics;
 import com.liferay.player.web.internal.model.Player;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Rubén Pulido
@@ -264,6 +272,77 @@ public class PlayerCollectionProvider
 			}
 		}
 
+		Optional<CategoriesInfoFilter> categoriesInfoFilterOptional =
+			collectionQuery.getInfoFilterOptional(CategoriesInfoFilter.class);
+
+		if (categoriesInfoFilterOptional.isPresent()) {
+			CategoriesInfoFilter categoriesInfoFilter =
+				categoriesInfoFilterOptional.get();
+
+			long[] categoryIds = ArrayUtil.append(
+				categoriesInfoFilter.getCategoryIds());
+
+			categoryIds = ArrayUtil.unique(categoryIds);
+
+			LongStream longStream = Arrays.stream(categoryIds);
+
+			List<String> categoryNames = longStream.mapToObj(
+				categoryId -> {
+					try {
+						return _assetCategoryService.fetchCategory(categoryId);
+					}
+					catch (PortalException portalException) {
+						_log.error(
+							"Could not fetch category for categoryId " +
+								categoryId,
+							portalException);
+
+						return null;
+					}
+				}
+			).filter(
+				Objects::nonNull
+			).map(
+				AssetCategory::getName
+			).collect(
+				Collectors.toList()
+			);
+
+			if (!categoryNames.isEmpty()) {
+				Stream<Player> stream = filteredPlayers.stream();
+
+				filteredPlayers = stream.filter(
+					player -> {
+						boolean matches = true;
+
+						for (String categoryName : categoryNames) {
+							if (categoryName.equals("Gold")) {
+								int[] goldMedals = player.getGoldMedals();
+
+								matches = matches && (goldMedals.length > 0);
+							}
+
+							if (categoryName.equals("Silver")) {
+								int[] goldMedals = player.getSilverMedals();
+
+								matches = matches && (goldMedals.length > 0);
+							}
+
+							if (categoryName.equals("Bronze")) {
+								int[] goldMedals = player.getBronzeMedals();
+
+								matches = matches && (goldMedals.length > 0);
+							}
+						}
+
+						return matches;
+					}
+				).collect(
+					Collectors.toList()
+				);
+			}
+		}
+
 		List<Player> pageFilteredPlayers = ListUtil.subList(
 			filteredPlayers, pagination.getStart(), pagination.getEnd());
 
@@ -321,5 +400,11 @@ public class PlayerCollectionProvider
 		2016, "Rio de Janeiro");
 
 	private static final Olympics _OLYMPICS_2021 = new Olympics(2021, "Tokyo");
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		PlayerCollectionProvider.class);
+
+	@Reference
+	private AssetCategoryService _assetCategoryService;
 
 }
