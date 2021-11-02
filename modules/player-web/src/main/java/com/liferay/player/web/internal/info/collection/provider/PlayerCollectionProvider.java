@@ -26,6 +26,7 @@ import com.liferay.info.filter.KeywordsInfoFilter;
 import com.liferay.info.form.InfoForm;
 import com.liferay.info.pagination.InfoPage;
 import com.liferay.info.pagination.Pagination;
+import com.liferay.player.web.internal.info.filter.NumericRangeInfoFilter;
 import com.liferay.player.web.internal.info.item.fields.PlayerInfoFields;
 import com.liferay.player.web.internal.model.Olympics;
 import com.liferay.player.web.internal.model.Player;
@@ -369,6 +370,7 @@ public class PlayerCollectionProvider
 
 		infoFilters.add(new CategoriesInfoFilter());
 		infoFilters.add(new KeywordsInfoFilter());
+		infoFilters.add(new NumericRangeInfoFilter());
 
 		return infoFilters;
 	}
