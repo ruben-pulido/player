@@ -413,33 +413,44 @@ public class PlayerCollectionProvider
 		return infoFilters;
 	}
 
+	private static final String _IMAGES_OLYMPICS_URL_PREFIX =
+		"https://img.olympicchannel.com/images/image/private/f_auto//primary/";
+
 	private static final String _IMAGES_URL_PREFIX =
 		"https://img.olympicchannel.com/images/image/private/t_1-1_600/f_auto/";
 
 	private static final Olympics _OLYMPICS_1984 = new Olympics(
-		1984, "Los Angeles");
+		1984, "Los Angeles",
+		_IMAGES_OLYMPICS_URL_PREFIX + "hoksz8bqsviszxlipudx");
 
-	private static final Olympics _OLYMPICS_1988 = new Olympics(1988, "Seoul");
+	private static final Olympics _OLYMPICS_1988 = new Olympics(
+		1988, "Seoul", _IMAGES_OLYMPICS_URL_PREFIX + "vo89gmcuxnviaxxat79i");
 
 	private static final Olympics _OLYMPICS_1992 = new Olympics(
-		1992, "Barcelona");
+		1992, "Barcelona",
+		_IMAGES_OLYMPICS_URL_PREFIX + "xj0oajp3kjss73gpxt8y");
 
 	private static final Olympics _OLYMPICS_1996 = new Olympics(
-		1996, "Atlanta");
+		1996, "Atlanta", _IMAGES_OLYMPICS_URL_PREFIX + "kuxmoldrq2rjc9wases5");
 
-	private static final Olympics _OLYMPICS_2000 = new Olympics(2000, "Sydney");
+	private static final Olympics _OLYMPICS_2000 = new Olympics(
+		2000, "Sydney", _IMAGES_OLYMPICS_URL_PREFIX + "zi9tcoygzpxwuppy2j7o");
 
-	private static final Olympics _OLYMPICS_2004 = new Olympics(2004, "Athens");
+	private static final Olympics _OLYMPICS_2004 = new Olympics(
+		2004, "Athens", _IMAGES_OLYMPICS_URL_PREFIX + "hmg193cmdqkjgfjv97b3");
 
 	private static final Olympics _OLYMPICS_2008 = new Olympics(
-		2008, "Beijing");
+		2008, "Beijing", _IMAGES_OLYMPICS_URL_PREFIX + "loh6afs8o3nwkfwplzvt");
 
-	private static final Olympics _OLYMPICS_2012 = new Olympics(2012, "London");
+	private static final Olympics _OLYMPICS_2012 = new Olympics(
+		2012, "London", _IMAGES_OLYMPICS_URL_PREFIX + "gstlpozasurlynmmwkh0");
 
 	private static final Olympics _OLYMPICS_2016 = new Olympics(
-		2016, "Rio de Janeiro");
+		2016, "Rio de Janeiro",
+		_IMAGES_OLYMPICS_URL_PREFIX + "fzntd3nnabdno6x16pns");
 
-	private static final Olympics _OLYMPICS_2021 = new Olympics(2021, "Tokyo");
+	private static final Olympics _OLYMPICS_2021 = new Olympics(
+		2021, "Tokyo", _IMAGES_OLYMPICS_URL_PREFIX + "jux5g5vrxv5fnglq93yj");
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		PlayerCollectionProvider.class);
