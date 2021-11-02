@@ -24,9 +24,10 @@ import java.io.Serializable;
  */
 public class Olympics implements ClassedModel {
 
-	public Olympics(int year, String city) {
+	public Olympics(int year, String city, String image) {
 		_year = year;
 		_city = city;
+		_image = image;
 	}
 
 	public String getCity() {
@@ -36,6 +37,10 @@ public class Olympics implements ClassedModel {
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return null;
+	}
+
+	public String getImage() {
+		return _image;
 	}
 
 	@Override
@@ -73,6 +78,7 @@ public class Olympics implements ClassedModel {
 	}
 
 	private String _city;
+	private String _image;
 	private int _year;
 
 }
