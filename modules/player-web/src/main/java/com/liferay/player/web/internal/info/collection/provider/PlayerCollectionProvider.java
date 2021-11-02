@@ -344,6 +344,44 @@ public class PlayerCollectionProvider
 			}
 		}
 
+		Optional<NumericRangeInfoFilter> numericRangeInfoFilterOptional =
+			collectionQuery.getInfoFilterOptional(NumericRangeInfoFilter.class);
+
+		if (numericRangeInfoFilterOptional.isPresent()) {
+			NumericRangeInfoFilter numericRangeInfoFilter =
+				numericRangeInfoFilterOptional.get();
+
+			int min = numericRangeInfoFilter.getMin();
+			int max = numericRangeInfoFilter.getMax();
+
+			if ((min != -1) || (max != -1)) {
+				Stream<Player> stream = filteredPlayers.stream();
+
+				filteredPlayers = stream.filter(
+					player -> {
+						boolean matches = true;
+
+						int totalMedals =
+							player.getGoldMedals().length +
+								player.getSilverMedals().length +
+									player.getBronzeMedals().length;
+
+						if (min != -1) {
+							matches = matches && (totalMedals >= min);
+						}
+
+						if (max != -1) {
+							matches = matches && (totalMedals <= max);
+						}
+
+						return matches;
+					}
+				).collect(
+					Collectors.toList()
+				);
+			}
+		}
+
 		List<Player> pageFilteredPlayers = ListUtil.subList(
 			filteredPlayers, pagination.getStart(), pagination.getEnd());
 
