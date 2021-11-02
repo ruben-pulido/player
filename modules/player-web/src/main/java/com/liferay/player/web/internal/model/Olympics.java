@@ -14,10 +14,15 @@
 
 package com.liferay.player.web.internal.model;
 
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.portal.kernel.model.ClassedModel;
+
+import java.io.Serializable;
+
 /**
  * @author Rubén Pulido
  */
-public class Olympics {
+public class Olympics implements ClassedModel {
 
 	public Olympics(int year, String city) {
 		_year = year;
@@ -28,8 +33,32 @@ public class Olympics {
 		return _city;
 	}
 
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return null;
+	}
+
+	@Override
+	public Class<?> getModelClass() {
+		return Olympics.class;
+	}
+
+	@Override
+	public String getModelClassName() {
+		return Olympics.class.getName();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _year;
+	}
+
 	public int getYear() {
 		return _year;
+	}
+
+	@Override
+	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 	}
 
 	@Override
