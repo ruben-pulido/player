@@ -1,0 +1,2381 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>Make Collections shine with the Collection Display fragment</title>
+  <style type="text/css">
+    body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #222;
+  font-size: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  background-color: #f7f7f7;
+}
+
+.slide-content {
+  width: 800px;
+  height: 600px;
+  overflow: hidden;
+  margin: 80px auto 0 auto;
+  padding: 30px;
+
+  font-weight: 200;
+  font-size: 200%;
+  line-height: 1.375;
+}
+
+.controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.arrow {
+  width: 0; height: 0;
+  border: 30px solid #333;
+  float: left;
+  margin-right: 30px;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.prev {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+
+  border-left-width: 0;
+  border-right-width: 50px;
+}
+
+.next {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+
+  border-left-width: 50px;
+  border-right-width: 0;
+}
+
+.prev:hover {
+  border-right-color: #888;
+  cursor: pointer;
+}
+
+.next:hover {
+  border-left-color: #888;
+  cursor: pointer;
+}
+
+h1 {
+  font-size: 300%;
+  line-height: 1.2;
+  text-align: center;
+  margin: 170px 0 0;
+}
+
+h2 {
+  font-size: 100%;
+  line-height: 1.2;
+  margin: 5px 0;
+  text-align: center;
+  font-weight: 200;
+}
+
+h3 {
+  font-size: 140%;
+  line-height: 1.2;
+  border-bottom: 1px solid #aaa;
+  margin: 0;
+  padding-bottom: 15px;
+}
+
+ul {
+  padding: 20px 0 0 60px;
+  font-weight: 200;
+  line-height: 1.375;
+}
+
+.author h1 {
+  font-size: 170%;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.author h3 {
+  font-weight: 100;
+  text-align: center;
+  font-size: 95%;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+  color: #44a4dd;
+}
+
+a:hover {
+  color: #66b5ff;
+}
+
+pre {
+  font-size: 60%;
+  line-height: 1.3;
+}
+
+.progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  z-index: 1;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 3px;
+  background-color: #b4b4b4;
+
+  -webkit-transition: width 0.05s ease-out;
+  -moz-transition: width 0.05s ease-out;
+  -o-transition: width 0.05s ease-out;
+  transition: width 0.05s ease-out;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 850px) {
+
+  body {
+    font-size: 70%;
+  }
+
+  .slide-content {
+    width: auto;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  h1 {
+    margin-top: 120px;
+  }
+
+  .prev, .prev:hover {
+    border-right-color: rgba(135, 135, 135, 0.5);
+  }
+
+  .next, .next:hover {
+    border-left-color: rgba(135, 135, 135, 0.5);
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 50%;
+    overflow: hidden;
+  }
+
+  .slide-content {
+    padding: 10px;
+    margin-top: 10px;
+    height: 340px;
+  }
+
+  h1 {
+    margin-top: 50px;
+  }
+
+  ul {
+    padding-left: 25px;
+  }
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+  }
+
+  @page {
+    size: letter;
+  }
+
+  .hidden {
+    display: inline;
+  }
+
+  html {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  body {
+    margin: 0 auto !important;
+    border: 0;
+    padding: 0;
+    float: none !important;
+    overflow: visible;
+    background: none !important;
+    font-size: 52%;
+  }
+
+  .progress, .controls {
+    display: none;
+  }
+
+  .slide {
+    position: static;
+  }
+
+  .slide-content {
+    border: 1px solid #222;
+    margin-top: 0;
+    margin-bottom: 40px;
+    height: 3.5in;
+    overflow: visible;
+  }
+
+  .slide:nth-child(even) {
+    /* 2 slides per page */
+    page-break-before: always;
+  }
+}
+
+/*
+
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #333;
+  background: #f8f8f8;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #998;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: #333;
+  font-weight: bold;
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: #008080;
+}
+
+.hljs-string,
+.hljs-doctag {
+  color: #d14;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: #900;
+  font-weight: bold;
+}
+
+.hljs-subst {
+  font-weight: normal;
+}
+
+.hljs-type,
+.hljs-class .hljs-title {
+  color: #458;
+  font-weight: bold;
+}
+
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+  color: #000080;
+  font-weight: normal;
+}
+
+.hljs-regexp,
+.hljs-link {
+  color: #009926;
+}
+
+.hljs-symbol,
+.hljs-bullet {
+  color: #990073;
+}
+
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #0086b3;
+}
+
+.hljs-meta {
+  color: #999;
+  font-weight: bold;
+}
+
+.hljs-deletion {
+  background: #fdd;
+}
+
+.hljs-addition {
+  background: #dfd;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+
+  </style>
+    <script async src="http://localhost:35729/livereload.js"></script>
+</head>
+<body>
+    <div class="progress">
+    <div class="progress-bar"></div>
+  </div>
+
+  <div class="slide" id="slide-1">
+    <section class="slide-content"><h1 id="make-collections-shine-with-the-collection-display-fragment">Make Collections shine with the Collection Display fragment</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-2">
+    <section class="slide-content"><h3 id="the-original-dream-team">The original Dream Team</h3>
+<p><img 
+  src="./images/usa-dream-team-2.jpg" 
+  alt="USA Dream Team" 
+  style="margin-left:auto;margin-right:auto;display:block;max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-3">
+    <section class="slide-content"><h3 id="the-spanish-dream-team">The Spanish Dream Team</h3>
+<p><img 
+  src="./images/spain-dream-team.png" 
+  alt="Spain Dream Team" 
+  style="margin-left:auto;margin-right:auto;display:block;max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-4">
+    <section class="slide-content"><h3 id="olympics">Olympics</h3>
+<p><img 
+  src="./images/olympic-mascots.png" 
+  alt="Olympic Mascots" 
+  style="margin-left:auto;margin-right:auto;display:block;max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-5">
+    <section class="slide-content"><h3 id="what-we-will-be-covering-">What we will be covering:</h3>
+<ol>
+<li><strong>Pagination</strong></li>
+<li><strong>Filtering</strong></li>
+<li><strong>Related Items</strong></li>
+</ol>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-6">
+    <section class="slide-content"><h3 id="code">Code</h3>
+<p><a href="https://github.com/ruben-pulido/player">https://github.com/ruben-pulido/player</a></p>
+<h3 id="slides">Slides</h3>
+<p><a href="https://ruben-pulido.github.io/player/index.html">https://ruben-pulido.github.io/player/index.html</a></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-7">
+    <section class="slide-content"><h3 id="requirement">Requirement</h3>
+<p>Display list of Players supporting pagination, with each page displaying 6 Players</p>
+<h3 id="solution">Solution</h3>
+<ul>
+<li>Create <code>PlayerCollectionProvider</code> supporting pagination</li>
+<li>Create Content Page with Collection Display fragment to display list of Players</li>
+<li>Configure Collection Display fragment to perform pagination</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-8">
+    <section class="slide-content"><h3 id="what-we-will-be-covering-1-mark-pagination-mark-">What we will be covering (1): <mark>Pagination</mark></h3>
+<ul>
+<li><mark>Create a <strong>collection provider</strong></mark></li>
+<li>Add support for <strong>pagination</strong> to collection provider</li>
+<li>Display Collection Provider in Content Page with <strong>Collection Display</strong></li>
+<li>Enable pagination and choose between different <strong>pagination types</strong></li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-9">
+    <section class="slide-content"><h3 id="setup">Setup</h3>
+<pre><code>blade init -v portal-7.4-ga3 player
+
+Add to gradle.properties the following properties matching your local environment:
+
+# Set the folder that contains the Liferay bundle downloaded from the
+# &quot;liferay.workspace.bundle.url&quot; property. The default value is &quot;bundles&quot;.
+liferay.workspace.home.dir=/your/path/to/bundles
+
+# Set the folder that contains the Liferay portal source code
+liferay.source.home.dir=/your/path/to/liferay-portal
+
+blade create \
+  -t service \ 
+  -p com.liferay.player.web.internal.info.collection.provider \
+  -c PlayerCollectionProvider \
+  -s com.liferay.info.collection.provider.InfoCollectionProvider 
+  -v 7.4 \
+  player-web
+
+blade deploy
+</code></pre></section>
+  </div>
+  <div class="slide hidden" id="slide-10">
+    <section class="slide-content"><h3 id="implement-required-methods-in-collection-provider">Implement required methods in Collection Provider</h3>
+<pre><code class="lang-java"><span class="hljs-meta">@Component</span>(immediate = <span class="hljs-keyword">true</span>, service = InfoCollectionProvider.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerCollectionProvider</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">InfoCollectionProvider</span> </span>{
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> InfoPage <span class="hljs-title">getCollectionInfoPage</span><span class="hljs-params">(CollectionQuery collectionQuery)</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getLabel</span><span class="hljs-params">(Locale locale)</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    }
+
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-11">
+    <section class="slide-content"><h3 id="collection-provider-is-now-listed">Collection Provider is now listed</h3>
+<p><img 
+  src="./images/collection-provider.png" 
+  alt="Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;"/></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-12">
+    <section class="slide-content"><h3 id="create-player-model-">Create Player Model ⛹️</h3>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Player</span> </span>{
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Player</span><span class="hljs-params">(<span class="hljs-keyword">long</span> id, String name, String image)</span> </span>{
+        _id = id;
+        _name = name;
+        _image = image;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">long</span> <span class="hljs-title">getId</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> _id;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getImage</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> _image;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> _name;
+    }
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> _id;
+    <span class="hljs-keyword">private</span> String _image;
+    <span class="hljs-keyword">private</span> String _name;
+
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-13">
+    <section class="slide-content"><h3 id="make-player-implement-classedmodel">Make Player implement ClassedModel</h3>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Player</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ClassedModel</span> </span>{
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-keyword">public</span> Class&lt;?&gt; getModelClass() {
+    <span class="hljs-keyword">return</span> Player.class;
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getModelClassName</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> Player.class.getName();
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> Serializable <span class="hljs-title">getPrimaryKeyObj</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> _id;
+  }
+
+  <span class="hljs-comment">// ...</span>
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-14">
+    <section class="slide-content"><h3 id="associate-playercollectionprovider-to-player">Associate PlayerCollectionProvider to Player</h3>
+<pre><code class="lang-java"><span class="hljs-meta">@Component</span>(immediate = <span class="hljs-keyword">true</span>, service = InfoCollectionProvider.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerCollectionProvider</span>
+    <span class="hljs-keyword">implements</span> <span class="hljs-title">InfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt; </span>{
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> InfoPage&lt;Player&gt; <span class="hljs-title">getCollectionInfoPage</span><span class="hljs-params">(
+        CollectionQuery collectionQuery)</span> </span>{
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getLabel</span><span class="hljs-params">(Locale locale)</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    }
+
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-15">
+    <section class="slide-content"><h3 id="collection-provider-now-displays-associated-type">Collection Provider now displays associated type</h3>
+<p><img 
+  src="./images/player-collection-provider.png" 
+  alt="Player Collection Provider"
+  style="max-height:470px;max-width:800px;height:auto;width:auto;"/></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-16">
+    <section class="slide-content"><h3 id="assign-label-to-collection-provider-and-associated-type">Assign label to Collection Provider and associated type</h3>
+<pre><code class="lang-java"><span class="hljs-meta">@Component</span>(immediate = <span class="hljs-keyword">true</span>, service = InfoCollectionProvider.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerCollectionProvider</span>
+    <span class="hljs-keyword">implements</span> <span class="hljs-title">InfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt; </span>{
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getLabel</span><span class="hljs-params">(Locale locale)</span> </span>{
+        <span class="hljs-keyword">return</span> LanguageUtil.get(locale, <span class="hljs-string">"players"</span>);
+    }
+}
+</code></pre>
+<p>bnd.bnd</p>
+<pre><code>Provide-Capability:\
+    liferay.language.resources;\
+        resource.bundle.base.name=&quot;content.Language&quot;
+</code></pre><p>Language.properties</p>
+<pre><code>model.resource.com.liferay.player.web.internal.model.Player=Player
+players=Players
+</code></pre></section>
+  </div>
+  <div class="slide hidden" id="slide-17">
+    <section class="slide-content"><h3 id="collection-provider-and-associated-type-now-display-label">Collection Provider and associated type now display label</h3>
+<p><img 
+  src="./images/player-collection-provider-with-label.png" 
+  alt="Player Collection Provider with Label" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;"/></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-18">
+    <section class="slide-content"><h3 id="implement-getcollectioninfopage-in-playercollectionprovider">Implement getCollectionInfoPage in PlayerCollectionProvider</h3>
+<pre><code class="lang-java"><span class="hljs-meta">@Component</span>(immediate = <span class="hljs-keyword">true</span>, service = InfoCollectionProvider.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerCollectionProvider</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">InfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt; </span>{
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> InfoPage&lt;Player&gt; <span class="hljs-title">getCollectionInfoPage</span><span class="hljs-params">(CollectionQuery collectionQuery)</span> </span>{
+        List&lt;Player&gt; players = <span class="hljs-keyword">new</span> ArrayList();
+
+        players.add(<span class="hljs-keyword">new</span> Player(<span class="hljs-number">1</span>, <span class="hljs-string">"Michael Jordan"</span>, _PLAYER1_IMAGE_URL));
+        players.add(<span class="hljs-keyword">new</span> Player(<span class="hljs-number">2</span>, <span class="hljs-string">"Shaquille O'Neal"</span>, _PLAYER2_IMAGE_URL));
+        <span class="hljs-keyword">return</span> InfoPage.of(players);
+    }
+
+    <span class="hljs-comment">// ..</span>
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-19">
+    <section class="slide-content"><h3 id="view-items">View items</h3>
+<p><img 
+  src="./images/view-items-menu.png" 
+  alt="View Items Menu" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;"/></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-20">
+    <section class="slide-content"><h3 id="something-is-missing">Something is missing</h3>
+<p><img src="./images/view-items-error.png" alt="View Items Error" width="800"/></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-21">
+    <section class="slide-content"><h3 id="playerinfoitemfieldvaluesprovider">PlayerInfoItemFieldValuesProvider</h3>
+<pre><code class="lang-java"><span class="hljs-meta">@Component</span>(immediate = <span class="hljs-keyword">true</span>, service = InfoItemFieldValuesProvider.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerInfoItemFieldValuesProvider</span>
+    <span class="hljs-keyword">implements</span> <span class="hljs-title">InfoItemFieldValuesProvider</span>&lt;<span class="hljs-title">Player</span>&gt; </span>{
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> InfoItemFieldValues <span class="hljs-title">getInfoItemFieldValues</span><span class="hljs-params">(Player player)</span> </span>{
+        <span class="hljs-keyword">return</span> InfoItemFieldValues.builder(
+        ).infoFieldValues(
+            _getInfoFieldValues(player)
+        ).infoItemReference(
+            <span class="hljs-keyword">new</span> InfoItemReference(Player.class.getName(), player.getId())
+        ).build();
+    }
+
+    <span class="hljs-keyword">private</span> List&lt;InfoFieldValue&lt;Object&gt;&gt; _getInfoFieldValues(Player player) {
+        List&lt;InfoFieldValue&lt;Object&gt;&gt; infoFieldValues = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+
+        infoFieldValues.add(
+            <span class="hljs-keyword">new</span> InfoFieldValue&lt;&gt;(
+                PlayerInfoFields.nameInfoField, player.getName()));
+        infoFieldValues.add(
+            <span class="hljs-keyword">new</span> InfoFieldValue&lt;&gt;(
+                PlayerInfoFields.imageInfoField, <span class="hljs-keyword">new</span> WebImage(player.getImage())));
+
+        <span class="hljs-keyword">return</span> infoFieldValues;
+    }
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-22">
+    <section class="slide-content"><h3 id="create-playerinfofields-interface-describing-player-fields">Create PlayerInfoFields Interface describing Player fields</h3>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">PlayerInfoFields</span> </span>{
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> InfoField&lt;ImageInfoFieldType&gt; imageInfoField =
+        InfoField.builder(
+        ).infoFieldType(
+            ImageInfoFieldType.INSTANCE
+        ).name(
+            <span class="hljs-string">"image"</span>
+        ).labelInfoLocalizedValue(
+            InfoLocalizedValue.localize(Player.class, <span class="hljs-string">"image"</span>)
+        ).build();
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> InfoField&lt;TextInfoFieldType&gt; nameInfoField = InfoField.builder(
+    ).infoFieldType(
+        TextInfoFieldType.INSTANCE
+    ).name(
+        <span class="hljs-string">"name"</span>
+    ).labelInfoLocalizedValue(
+        InfoLocalizedValue.localize(Player.class, <span class="hljs-string">"name"</span>)
+    ).build();
+
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-23">
+    <section class="slide-content"><h3 id="view-items">View items</h3>
+<p><img 
+  src="./images/view-items-menu.png" 
+  alt="View Items Menu" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;"/></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-24">
+    <section class="slide-content"><h3 id="view-items-now-displays-the-list-of-players">View items now displays the list of players</h3>
+<p><img 
+  src="./images/view-items-success.png" 
+  alt="View Items Menu" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;"/></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-25">
+    <section class="slide-content"><h3 id="let-s-return-now-21-players">Let&#39;s return now 21 players</h3>
+<pre><code class="lang-java"><span class="hljs-meta">@Component</span>(immediate = <span class="hljs-keyword">true</span>, service = InfoCollectionProvider.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerCollectionProvider</span>
+    <span class="hljs-keyword">implements</span> <span class="hljs-title">InfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt; </span>{
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> InfoPage&lt;Player&gt; <span class="hljs-title">getCollectionInfoPage</span><span class="hljs-params">(
+        CollectionQuery collectionQuery)</span> </span>{
+
+        List&lt;Player&gt; players = <span class="hljs-keyword">new</span> ArrayList();
+
+        players.add(<span class="hljs-keyword">new</span> Player(<span class="hljs-number">1</span>, <span class="hljs-string">"Player 1"</span>, _PLAYER1_IMAGE_URL));
+        players.add(<span class="hljs-keyword">new</span> Player(<span class="hljs-number">2</span>, <span class="hljs-string">"Player 2"</span>, _PLAYER2_IMAGE_URL));
+
+        <span class="hljs-comment">// ...</span>
+
+        players.add(<span class="hljs-keyword">new</span> Player(<span class="hljs-number">21</span>, <span class="hljs-string">"Player 21"</span>, _PLAYER21_IMAGE_URL));
+
+        <span class="hljs-keyword">return</span> InfoPage.of(players);
+    }
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-26">
+    <section class="slide-content"><h3 id="view-items">View items</h3>
+<p><img 
+  src="./images/view-items-menu.png" 
+  alt="View Items Menu" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-27">
+    <section class="slide-content"><h3 id="all-21-players-are-displayed-regardless-of-the-page-selected">All 21 players are displayed regardless of the page selected</h3>
+<p><img 
+  src="./images/view-items-page1-wrong.png" 
+  alt="View Items Page 1 Wrong Results" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-28">
+    <section class="slide-content"><h3 id="what-we-will-be-covering-1-mark-pagination-mark-">What we will be covering (1): <mark>Pagination</mark></h3>
+<ul>
+<li>Create a <strong>collection provider</strong> ✔ </li>
+<li><mark>Add support for <strong>pagination</strong> to collection provider</mark></li>
+<li>Display Collection Provider in Content Page with <strong>Collection Display</strong></li>
+<li>Enable pagination and choose between different <strong>pagination types</strong></li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-29">
+    <section class="slide-content"><h3 id="return-sublist-of-elements-according-to-pagination-object">Return sublist of elements according to pagination object</h3>
+<pre><code class="lang-java"><span class="hljs-meta">@Component</span>(immediate = <span class="hljs-keyword">true</span>, service = InfoCollectionProvider.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerCollectionProvider</span>
+    <span class="hljs-keyword">implements</span> <span class="hljs-title">InfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt; </span>{
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> InfoPage&lt;Player&gt; <span class="hljs-title">getCollectionInfoPage</span><span class="hljs-params">(
+        CollectionQuery collectionQuery)</span> </span>{
+
+        List&lt;Player&gt; players = <span class="hljs-keyword">new</span> ArrayList();
+
+        players.add(<span class="hljs-keyword">new</span> Player(<span class="hljs-number">1</span>, <span class="hljs-string">"Player 1"</span>, _PLAYER1_IMAGE_URL));
+        players.add(<span class="hljs-keyword">new</span> Player(<span class="hljs-number">2</span>, <span class="hljs-string">"Player 2"</span>, _PLAYER2_IMAGE_URL));
+
+        <span class="hljs-comment">// ...</span>
+
+        players.add(<span class="hljs-keyword">new</span> Player(<span class="hljs-number">21</span>, <span class="hljs-string">"Player 21"</span>, _PLAYER21_IMAGE_URL));
+
+        Pagination pagination = collectionQuery.getPagination();
+
+        <span class="hljs-keyword">return</span> InfoPage.of(
+            ListUtil.subList(
+                players, pagination.getStart(), pagination.getEnd()));
+    }
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-30">
+    <section class="slide-content"><h3 id="sublist-but-no-pagination-options">Sublist but no pagination options</h3>
+<p><img 
+  src="./images/view-items-page1-20items-1page.png" 
+  alt="View Items Page 1. 20 items. 1 Page." 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-31">
+    <section class="slide-content"><h3 id="include-pagination-and-totalcount-in-infopage">Include pagination and totalCount in InfoPage</h3>
+<pre><code class="lang-java"><span class="hljs-meta">@Component</span>(immediate = <span class="hljs-keyword">true</span>, service = InfoCollectionProvider.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerCollectionProvider</span>
+    <span class="hljs-keyword">implements</span> <span class="hljs-title">InfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt; </span>{
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> InfoPage&lt;Player&gt; <span class="hljs-title">getCollectionInfoPage</span><span class="hljs-params">(
+        CollectionQuery collectionQuery)</span> </span>{
+
+        List&lt;Player&gt; players = <span class="hljs-keyword">new</span> ArrayList();
+
+        players.add(<span class="hljs-keyword">new</span> Player(<span class="hljs-number">1</span>, <span class="hljs-string">"Player 1"</span>, _PLAYER1_IMAGE_URL));
+        players.add(<span class="hljs-keyword">new</span> Player(<span class="hljs-number">2</span>, <span class="hljs-string">"Player 2"</span>, _PLAYER2_IMAGE_URL));
+
+        <span class="hljs-comment">// ...</span>
+
+        players.add(<span class="hljs-keyword">new</span> Player(<span class="hljs-number">21</span>, <span class="hljs-string">"Player 21"</span>, _PLAYER21_IMAGE_URL));
+
+        Pagination pagination = collectionQuery.getPagination();
+
+        <span class="hljs-keyword">return</span> InfoPage.of(
+            ListUtil.subList(
+                players, pagination.getStart(), pagination.getEnd()),
+            pagination, players.size());
+    }
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-32">
+    <section class="slide-content"><h3 id="sublist-with-pagination-options-1-">Sublist with pagination options (1)</h3>
+<p><img 
+  src="./images/view-items-page1-correct.png" 
+  alt="View Items Page 1. 20 items. 1 Page." 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-33">
+    <section class="slide-content"><h3 id="sublist-with-pagination-options-2-">Sublist with pagination options (2)</h3>
+<p><img 
+  src="./images/view-items-page2.png" 
+  alt="View Items Page 1. 20 items. 1 Page." 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-34">
+    <section class="slide-content"><h3 id="what-we-will-be-covering-1-mark-pagination-mark-">What we will be covering (1): <mark>Pagination</mark></h3>
+<ul>
+<li>Create a <strong>collection provider</strong> ✔ </li>
+<li>Add support for <strong>pagination</strong> to collection provider ✔</li>
+<li><mark>Display Collection Provider in Content Page with <strong>Collection Display</strong></mark></li>
+<li>Enable pagination and choose between different <strong>pagination types</strong></li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-35">
+    <section class="slide-content"><h3 id="create-new-page">Create new Page</h3>
+<p><img 
+  src="./images/create-page-players.png" 
+  alt="Create Page" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-36">
+    <section class="slide-content"><h3 id="add-a-collection-display">Add a Collection Display</h3>
+<p><img 
+src="./images/add-collection-display.png" 
+  alt="Create Page" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-37">
+    <section class="slide-content"><h3 id="select-collection">Select Collection</h3>
+<p><img 
+src="./images/select-collection.png" 
+  alt="Select Collection" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-38">
+    <section class="slide-content"><h3 id="select-collection-provider-does-not-list-players">Select Collection Provider does not list Players</h3>
+<p><img 
+src="./images/select-collection-provider.png" 
+  alt="Select Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-39">
+    <section class="slide-content"><h3 id="create-playerinfoitemformprovider">Create PlayerInfoItemFormProvider</h3>
+<pre><code class="lang-java"><span class="hljs-meta">@Component</span>(immediate = <span class="hljs-keyword">true</span>, service = InfoItemFormProvider.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerInfoItemFormProvider</span>
+    <span class="hljs-keyword">implements</span> <span class="hljs-title">InfoItemFormProvider</span>&lt;<span class="hljs-title">Player</span>&gt; </span>{
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> InfoForm <span class="hljs-title">getInfoForm</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> InfoForm.builder(
+        ).infoFieldSetEntry(
+            InfoFieldSet.builder(
+            ).infoFieldSetEntry(
+                PlayerInfoFields.nameInfoField
+            ).infoFieldSetEntry(
+                PlayerInfoFields.imageInfoField
+            ).labelInfoLocalizedValue(
+                InfoLocalizedValue.localize(PlayerInfoFields.class, <span class="hljs-string">"player"</span>)
+            ).build()
+        ).name(
+            <span class="hljs-string">"Player"</span>
+        ).build();
+    }
+
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-40">
+    <section class="slide-content"><h3 id="select-collection-provider-now-lists-players">Select Collection Provider now lists Players</h3>
+<p><img 
+src="./images/select-collection-provider-players.png" 
+  alt="Select Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-41">
+    <section class="slide-content"><h3 id="collection-display-is-now-assigned-to-players">Collection Display is now assigned to Players</h3>
+<p><img 
+  src="./images/collection-display-players.png" 
+  alt="Collection Display Players" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-42">
+    <section class="slide-content"><h3 id="set-layout-to-6-columns-and-add-card-fragment">Set Layout to 6 columns and add Card fragment</h3>
+<p><img 
+  src="./images/collection-display-6columns.png" 
+  alt="Collection Display" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-43">
+    <section class="slide-content"><h3 id="map-heading-to-name-field">Map Heading to Name field</h3>
+<p><img 
+  src="./images/collection-display-6columns-name-mapped.png" 
+  alt="Collection Display Players" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-44">
+    <section class="slide-content"><h3 id="map-image-to-image-field">Map Image to Image field</h3>
+<p><img 
+  src="./images/collection-display-6columns-name-image-mapped.png" 
+  alt="Collection Display Players" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-45">
+    <section class="slide-content"><h3 id="publish-page">Publish page</h3>
+<p><img 
+  src="./images/collection-display-6columns-name-image-mapped-view.png" 
+  alt="Collection Display Players" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-46">
+    <section class="slide-content"><h3 id="what-we-will-be-covering-1-mark-pagination-mark-">What we will be covering (1): <mark>Pagination</mark></h3>
+<ul>
+<li>Create a <strong>collection provider</strong> ✔ </li>
+<li>Add support for <strong>pagination</strong> to collection provider ✔</li>
+<li>Display Collection Provider in Content Page with <strong>Collection Display</strong> ✔</li>
+<li><mark>Enable pagination and choose between different <strong>pagination types</strong></mark></li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-47">
+    <section class="slide-content"><h3 id="numeric-pagination-edit-mode-">Numeric Pagination (Edit Mode)</h3>
+<p><img 
+  src="./images/collection-display-6columns-pagination-numeric.png" 
+  alt="Collection Display Players" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-48">
+    <section class="slide-content"><h3 id="numeric-pagination-view-mode-">Numeric Pagination (View Mode)</h3>
+<p><img 
+  src="./images/collection-display-6columns-pagination-numeric-page2-view.png" 
+  alt="Collection Display Players" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-49">
+    <section class="slide-content"><h3 id="simple-pagination-edit-mode-">Simple Pagination (Edit Mode)</h3>
+<p><img 
+  src="./images/collection-display-6columns-pagination-simple.png" 
+  alt="Collection Display Players" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-50">
+    <section class="slide-content"><h3 id="simple-pagination-preview-mode-">Simple Pagination (Preview Mode)</h3>
+<p><img 
+  src="./images/collection-display-6columns-pagination-simple-last-page-preview.png" 
+  alt="Collection Display Players" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-51">
+    <section class="slide-content"><h3 id="pagination-in-collection-display-can-be-applied-to-any-collection-type">Pagination in Collection Display can be applied to any collection type</h3>
+<ul>
+<li>Collection Provider</li>
+<li>Manual Collection</li>
+<li>Dynamic Collection</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-52">
+    <section class="slide-content"><h3 id="what-we-will-be-covering-2-mark-filtering-mark-">What we will be covering (2): <mark>Filtering<mark></h3>
+<ul>
+<li><mark><strong>Pre filter</strong> the items returned by collection providers</mark></li>
+<li>Use Collection Filter fragments to <strong>allow end users to filter</strong> collection items themselves</li>
+<li>Make an existing Collection Provider <strong>compatible with a filter</strong> (e.g: Keywords and Categories filters)</li>
+<li>Create a <strong>new type of filter</strong> and make a Collection Provider compatible with it</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-53">
+    <section class="slide-content"><p><strong>Requirement</strong></p>
+<p>Allow <strong>Page Creator</strong> to filter players based on their country.</p>
+<p><strong>Solution</strong></p>
+<ul>
+<li>Add a country text field to <code>Player</code>, <code>PlayerInfoFields</code>, <code>PlayerInfoItemFormProvider</code>, <code>PlayerInfoItemFieldValuesProvider</code> and <code>PlayerCollectionProvider</code></li>
+<li>Make <code>PlayerCollectionProvider</code> implement <code>ConfigurableInfoCollectionProvider</code></li>
+<li>Let the <strong>Page Creator</strong> configure the Collection Display Fragment to prefilter Players from the selected countries</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-54">
+    <section class="slide-content"><h3 id="make-playercollectionprovider-implement-configurableinfocollectionprovider">Make PlayerCollectionProvider implement ConfigurableInfoCollectionProvider</h3>
+<pre><code class="lang-java"><span class="hljs-meta">@Component</span>(immediate = <span class="hljs-keyword">true</span>, service = InfoCollectionProvider.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerCollectionProvider</span>
+    <span class="hljs-keyword">implements</span> <span class="hljs-title">ConfigurableInfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt; </span>{
+
+    <span class="hljs-comment">// ..</span>
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-55">
+    <section class="slide-content"><h3 id="implement-getconfigurationinfoform-with-country-field">Implement getConfigurationInfoForm with country field</h3>
+<pre><code class="lang-java"><span class="hljs-meta">@Component</span>(immediate = <span class="hljs-keyword">true</span>, service = InfoCollectionProvider.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerCollectionProvider</span>
+    <span class="hljs-keyword">implements</span> <span class="hljs-title">ConfigurableInfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt; </span>{
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> InfoForm <span class="hljs-title">getConfigurationInfoForm</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> InfoForm.builder(
+        ).infoFieldSetEntry(
+            PlayerInfoFields.countryInfoField
+        ).build();
+    }
+
+    <span class="hljs-comment">// ...</span>
+
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-56">
+    <section class="slide-content"><h3 id="filter-collection-option-is-now-available">Filter Collection option is now available</h3>
+<p><img 
+  src="./images/collection-display-prefilter.png" 
+  alt="Collection Display Players" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-57">
+    <section class="slide-content"><h3 id="filter-players-according-to-configuration-values">Filter players according to configuration values</h3>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerCollectionProvider</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ConfigurableInfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt; </span>{
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> InfoPage&lt;Player&gt; <span class="hljs-title">getCollectionInfoPage</span><span class="hljs-params">(CollectionQuery collectionQuery)</span> </span>{
+        <span class="hljs-comment">// ...</span>
+        List&lt;Player&gt; filteredPlayers = ListUtil.copy(players);
+
+        Optional&lt;Map&lt;String, String[]&gt;&gt; configurationOptional =
+            collectionQuery.getConfigurationOptional();
+
+        <span class="hljs-keyword">if</span> (configurationOptional.isPresent()) {
+            Map&lt;String, String[]&gt; configurationMap = configurationOptional.get();
+
+            String[] countries = configurationMap.get(
+                PlayerInfoFields.countryInfoField.getName());
+
+            filteredPlayers = filteredPlayers.stream().filter(
+                player -&gt; ArrayUtil.contains(countries, player.getCountry())
+            ).collect(Collectors.toList());
+        }
+
+        List&lt;Player&gt; pageFilteredPlayers = ListUtil.subList(
+            filteredPlayers, pagination.getStart(), pagination.getEnd());
+
+        <span class="hljs-keyword">return</span> InfoPage.of(pageFilteredPlayers, pagination, filteredPlayers.size());
+    }
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-58">
+    <section class="slide-content"><h3 id="filter-players-from-spain">Filter players from Spain</h3>
+<p><img 
+  src="./images/collection-display-prefilter-country-spain.png" 
+  alt="Collection Display Players" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-59">
+    <section class="slide-content"><h3 id="only-players-from-spain-are-displayed">Only players from Spain are displayed</h3>
+<p><img 
+  src="./images/collection-display-prefilter-country-spain-edit-mode.png" 
+  alt="Collection Display Players" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-60">
+    <section class="slide-content"><h3 id="filter-players-from-usa">Filter players from USA</h3>
+<p><img 
+  src="./images/collection-display-prefilter-country-usa.png" 
+  alt="Collection Display Players" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-61">
+    <section class="slide-content"><h3 id="only-players-from-usa-are-displayed">Only players from USA are displayed</h3>
+<p><img 
+  src="./images/collection-display-prefilter-country-usa-edit-mode-page1.png" 
+  alt="Collection Display Players" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-62">
+    <section class="slide-content"><h3 id="filtered-players-are-paginated">Filtered players are paginated</h3>
+<p><img 
+  src="./images/collection-display-prefilter-country-usa-edit-mode-page2.png" 
+  alt="Collection Display Players" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-63">
+    <section class="slide-content"><h3 id="filtered-players-are-paginated">Filtered players are paginated</h3>
+<p><img 
+  src="./images/collection-display-prefilter-country-usa-edit-mode-page3.png" 
+  alt="Collection Display Players" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-64">
+    <section class="slide-content"><p><strong>Requirement</strong></p>
+<p>Allow <strong>Page Creator</strong> to select country for filtering from a drop down menu.</p>
+<p><strong>Solution</strong></p>
+<ul>
+<li>Change type of <code>countryInfoField</code> to <code>SelectInfoFieldType</code></li>
+<li>Specify <code>OPTIONS</code> attribute with available Country values</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-65">
+    <section class="slide-content"><h3 id="drop-down-menu-can-be-specified-for-listing-available-filter-values">Drop down menu can be specified for listing available filter values</h3>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerInfoFields</span> </span>{
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> InfoField&lt;SelectInfoFieldType&gt; countryInfoField =
+        InfoField.builder(
+        ).infoFieldType(
+            SelectInfoFieldType.INSTANCE
+        ).name(
+            <span class="hljs-string">"country"</span>
+        ).labelInfoLocalizedValue(
+            InfoLocalizedValue.localize(Player.class, <span class="hljs-string">"country"</span>)
+        ).attribute(
+            SelectInfoFieldType.OPTIONS, _getCountryOptions()
+        ).build();
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> List&lt;SelectInfoFieldType.Option&gt; _getCountryOptions() {
+        List&lt;SelectInfoFieldType.Option&gt; options = <span class="hljs-keyword">new</span> ArrayList();
+
+        options.add(<span class="hljs-keyword">new</span> SelectInfoFieldType.Option(<span class="hljs-string">"Argentina"</span>, <span class="hljs-string">"Argentina"</span>));
+        options.add(<span class="hljs-keyword">new</span> SelectInfoFieldType.Option(<span class="hljs-string">"China"</span>, <span class="hljs-string">"China"</span>));
+        options.add(<span class="hljs-keyword">new</span> SelectInfoFieldType.Option(<span class="hljs-string">"Spain"</span>, <span class="hljs-string">"Spain"</span>));
+        options.add(<span class="hljs-keyword">new</span> SelectInfoFieldType.Option(<span class="hljs-string">"USA"</span>, <span class="hljs-string">"USA"</span>));
+
+        <span class="hljs-keyword">return</span> options;
+    }
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-66">
+    <section class="slide-content"><h3 id="available-country-values-for-filtering-are-now-listed-in-a-dropdown">Available country values for filtering are now listed in a dropdown</h3>
+<p><img 
+  src="./images/collection-display-prefilter-country-single-select-china.png" 
+  alt="Collection Display Players" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-67">
+    <section class="slide-content"><h3 id="players-of-the-selected-country-are-displayed">Players of the selected country are displayed</h3>
+<p><img 
+  src="./images/collection-display-prefilter-country-single-select-china-edit-view.png" 
+  alt="Collection Display Players" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-68">
+    <section class="slide-content"><p><strong>Requirement</strong></p>
+<p>Allow <strong>Page Creator</strong> to select <strong>multiple countries</strong> for filtering from a drop down menu.</p>
+<p><strong>Solution</strong></p>
+<ul>
+<li>Specify <code>MULTIPLE</code> attribute to <code>true</code></li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-69">
+    <section class="slide-content"><h3 id="multi-selection-can-be-configured-for-filter-values">Multi selection can be configured for filter values</h3>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerInfoFields</span> </span>{
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> InfoField&lt;SelectInfoFieldType&gt; countryInfoField =
+        InfoField.builder(
+        ).infoFieldType(
+            SelectInfoFieldType.INSTANCE
+        ).name(
+            <span class="hljs-string">"country"</span>
+        ).labelInfoLocalizedValue(
+            InfoLocalizedValue.localize(Player.class, <span class="hljs-string">"country"</span>)
+        ).attribute(
+            SelectInfoFieldType.OPTIONS, _getCountryOptions()
+        ).attribute(
+            SelectInfoFieldType.MULTIPLE, <span class="hljs-keyword">true</span>
+        ).build();
+
+    <span class="hljs-comment">// ..</span>
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-70">
+    <section class="slide-content"><h3 id="multiple-countries-can-now-be-selected">Multiple countries can now be selected</h3>
+<p><img 
+  src="./images/collection-display-prefilter-country-multiple-select-china-argentina.png" 
+  alt="Collection Display Players" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-71">
+    <section class="slide-content"><h3 id="players-of-the-selected-countries-are-displayed">Players of the selected countries are displayed</h3>
+<p><img 
+  src="./images/collection-display-prefilter-country-multiple-select-china-argentina-edit-view.png" 
+  alt="Collection Display Players" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-72">
+    <section class="slide-content"><h3 id="what-we-will-be-covering-2-mark-filtering-mark-">What we will be covering (2): <mark>Filtering<mark></h3>
+<ul>
+<li><strong>Pre filter</strong> the items returned by collection providers ✔</li>
+<li><mark>Use Collection Filter fragments to <strong>allow end users to filter</strong> collection items themselves</mark></li>
+<li>Make an existing Collection Provider <strong>compatible with a filter</strong> (e.g: Keywords and Categories filters)</li>
+<li>Create a <strong>new type of filter</strong> and make a Collection Provider compatible with it</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-73">
+    <section class="slide-content"><h3 id="out-of-the-box-collection-filter-fragments">Out of the Box Collection Filter fragments</h3>
+<ul>
+<li>Keywords</li>
+<li>Categories</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-74">
+    <section class="slide-content"><p><strong>Requirement</strong></p>
+<p>Display national teams and let end user filter them based on entered continent and languages selected on a drop down.</p>
+<p><strong>Solution</strong></p>
+<ul>
+<li>Model National Team as a Web Content Structure, Languages as Categories and Continents as Keywords</li>
+<li>Create Web Contents representing National Teams and assign them Categories and Keywords</li>
+<li>Create manual Collection with available National Teams</li>
+<li>Use Collection Display, Collection Filter and Applied Filters fragments to create Page</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-75">
+    <section class="slide-content"><h3 id="model-national-team-as-a-web-content-structure-">Model National Team as a Web Content Structure.</h3>
+<p><img 
+  src="./images/national-team-structure.png" 
+  alt="National Team Web Content Structure" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-76">
+    <section class="slide-content"><h3 id="model-languages-as-categories">Model Languages as Categories</h3>
+<p><img 
+  src="./images/vocabulary-languages.png" 
+  alt="Language Categories" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-77">
+    <section class="slide-content"><h3 id="model-continents-as-keywords-tags-">Model Continents as Keywords (Tags)</h3>
+<p><img 
+  src="./images/tags-continents.png" 
+  alt="Language Categories" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-78">
+    <section class="slide-content"><h3 id="create-web-contents-representing-national-teams-and-assign-them-categories-and-keywords">Create Web Contents representing National Teams and assign them Categories and Keywords</h3>
+<p><img 
+  src="./images/web-content-ch.png" 
+  alt="National Team Web Content" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-79">
+    <section class="slide-content"><h3 id="create-manual-collection-with-available-national-teams">Create manual Collection with available National Teams</h3>
+<p><img 
+  src="./images/national-teams-manual-collection.png" 
+  alt="National Teams manual Collection" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-80">
+    <section class="slide-content"><h3 id="use-collection-display-to-display-national-teams">Use Collection Display to display National Teams</h3>
+<p><img 
+  src="./images/national-teams-collection-display.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-81">
+    <section class="slide-content"><h3 id="use-keywords-collection-filter-to-filter-based-on-continent">Use Keywords Collection Filter to filter based on Continent</h3>
+<p><img 
+  src="./images/national-teams-keywords-continent-filter.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-82">
+    <section class="slide-content"><h3 id="use-categories-collection-filter-to-filter-based-on-language">Use Categories Collection Filter to filter based on Language</h3>
+<p><img 
+  src="./images/national-teams-categories-language-filter.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-83">
+    <section class="slide-content"><h3 id="use-applied-filters-fragment-to-display-current-collection-filter-values">Use Applied Filters fragment to display current Collection Filter values</h3>
+<p><img 
+  src="./images/national-teams-applied-filters.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-84">
+    <section class="slide-content"><h3 id="select-english-german-or-spanish-as-language">Select English, German or Spanish as Language</h3>
+<p><img 
+  src="./images/national-teams-languages-selected.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-85">
+    <section class="slide-content"><h3 id="national-teams-with-english-german-or-spanish-as-language-are-displayed">National Teams with English, German or Spanish as Language are displayed</h3>
+<p><img 
+  src="./images/national-teams-languages-selected-displayed.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-86">
+    <section class="slide-content"><h3 id="enter-europe-as-continent">Enter Europe as Continent</h3>
+<p><img 
+  src="./images/national-teams-continent-entered.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-87">
+    <section class="slide-content"><h4 id="bonus-requirement">Bonus Requirement</h4>
+<p>Allow filtering countries in which at least one language of two different groups is spoken.</p>
+<h4 id="solution">Solution</h4>
+<p>Add a second Categories Collection Filter fragment</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-88">
+    <section class="slide-content"><h3 id="add-a-second-categories-collection-filter-fragment">Add a second Categories Collection Filter fragment</h3>
+<p><img 
+  src="./images/national-teams-categories-language-filter-2.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-89">
+    <section class="slide-content"><h3 id="select-english-german-or-spanish-and-french-or-italian-as-language">Select (English, German or Spanish) and (French or Italian) as Language</h3>
+<p><img 
+  src="./images/national-teams-languages-selected-2.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-90">
+    <section class="slide-content"><h3 id="national-teams-with-english-german-or-spanish-and-french-or-italian-as-language-are-displayed">National Teams with (English, German or Spanish) and (French or Italian) as Language are displayed</h3>
+<p><img 
+  src="./images/national-teams-languages-selected-2-displayed.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-91">
+    <section class="slide-content"><h3 id="what-we-will-be-covering-2-mark-filtering-mark-">What we will be covering (2): <mark>Filtering<mark></h3>
+<ul>
+<li><strong>Pre filter</strong> the items returned by collection providers ✔</li>
+<li>Use Collection Filter fragments to <strong>allow end users to filter</strong> collection items themselves ✔</li>
+<li><mark>Make an existing Collection Provider <strong>compatible with a filter</strong> (e.g: Keywords and Categories filters)</mark></li>
+<li>Create a <strong>new type of filter</strong> and make a Collection Provider compatible with it</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-92">
+    <section class="slide-content"><h3 id="requirement">Requirement</h3>
+<p>Let end user filter Players based on the Olympics where they participated</p>
+<h3 id="solution">Solution</h3>
+<p>Support Keywords filter on PlayerCollectionProvider and allow end user to enter Olympic cities as comma separated string to filter Players.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-93">
+    <section class="slide-content"><h3 id="create-olympics-model">Create Olympics Model</h3>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Olympics</span> </span>{
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Olympics</span><span class="hljs-params">(<span class="hljs-keyword">int</span> year, String city)</span> </span>{
+        _year = year;
+        _city = city;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getCity</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> _city;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getYear</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> _year;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">final</span> StringBuilder sb = <span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-number">6</span>);
+
+        sb.append(_city);
+        sb.append(<span class="hljs-string">" "</span>);
+        sb.append(_year);
+
+        <span class="hljs-keyword">return</span> sb.toString();
+    }
+
+    <span class="hljs-keyword">private</span> String _city;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> _year;
+
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-94">
+    <section class="slide-content"><h3 id="add-array-of-olympics-to-player">Add array of Olympics to Player</h3>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Player</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ClassedModel</span> </span>{
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Player</span><span class="hljs-params">(
+        <span class="hljs-keyword">long</span> id, String name, String image, String country,
+        Olympics[] olympics)</span> </span>{
+
+        _id = id;
+        _name = name;
+        _image = image;
+        _country = country;
+        _olympics = olympics;
+    }
+
+    <span class="hljs-keyword">public</span> Olympics[] getOlympics() {
+        <span class="hljs-keyword">return</span> _olympics;
+    }
+
+    <span class="hljs-keyword">private</span> Olympics[] _olympics;
+
+    <span class="hljs-comment">// ..</span>
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-95">
+    <section class="slide-content"><h3 id="playercollectionprovider-implements-filteredinfocollectionprovider-and-returns-keywordsinfofilter-as-supported-infofilter">PlayerCollectionProvider implements FilteredInfoCollectionProvider and returns KeywordsInfoFilter as supported InfoFilter</h3>
+<pre><code class="lang-java"><span class="hljs-meta">@Component</span>(immediate = <span class="hljs-keyword">true</span>, service = InfoCollectionProvider.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerCollectionProvider</span>
+    <span class="hljs-keyword">implements</span> <span class="hljs-title">ConfigurableInfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt;,
+               <span class="hljs-title">FilteredInfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt; </span>{
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;InfoFilter&gt; <span class="hljs-title">getSupportedInfoFilters</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> Collections.singletonList(<span class="hljs-keyword">new</span> KeywordsInfoFilter());
+    }
+
+    <span class="hljs-comment">// ..</span>
+  }
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-96">
+    <section class="slide-content"><h3 id="add-collection-filter">Add Collection Filter</h3>
+<p><img 
+  src="./images/add-collection-filter.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-97">
+    <section class="slide-content"><h3 id="select-players-as-target-collection">Select Players as target collection</h3>
+<p><img 
+  src="./images/add-collection-filter-target-collection.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-98">
+    <section class="slide-content"><h3 id="select-keywords-as-filter">Select Keywords as filter</h3>
+<p><img 
+  src="./images/add-collection-filter-type-keywords.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-99">
+    <section class="slide-content"><h3 id="enter-olympics-as-label">Enter Olympics as label</h3>
+<p><img 
+  src="./images/add-collection-filter-label-olympics.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-100">
+    <section class="slide-content"><h3 id="filter-players-based-on-the-olympics-specified-in-keywords-filter">Filter players based on the Olympics specified in Keywords Filter</h3>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerCollectionProvider</span>
+    <span class="hljs-keyword">implements</span> <span class="hljs-title">ConfigurableInfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt;, 
+               <span class="hljs-title">FilteredInfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt; </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> InfoPage&lt;Player&gt; <span class="hljs-title">getCollectionInfoPage</span><span class="hljs-params">(CollectionQuery collectionQuery)</span> </span>{
+        <span class="hljs-comment">// ..</span>
+        Optional&lt;KeywordsInfoFilter&gt; keywordsInfoFilterOptional =
+            collectionQuery.getInfoFilterOptional(KeywordsInfoFilter.class);
+
+        <span class="hljs-keyword">if</span> (keywordsInfoFilterOptional.isPresent()) {
+            KeywordsInfoFilter keywordsInfoFilter = keywordsInfoFilterOptional.get();
+            String keywords = keywordsInfoFilter.getKeywords();
+            <span class="hljs-keyword">if</span> (Validator.isNotNull(keywords)) {
+                String[] keywordsArray = keywords.split(<span class="hljs-string">", "</span>);
+                <span class="hljs-keyword">if</span> (keywordsArray.length &gt; <span class="hljs-number">0</span>) {
+                    Stream&lt;Player&gt; stream = filteredPlayers.stream();
+                    filteredPlayers = stream.filter(
+                        player -&gt; { 
+                            List&lt;String&gt; olympicCities = Stream.of(player.getOlympics())
+                              .map(Olympics::getCity).collect(Collectors.toList());
+                            <span class="hljs-keyword">return</span> olympicCities.containsAll(Arrays.asList(keywordsArray));
+                        }
+                    ).collect(Collectors.toList());
+                }
+            }
+        }
+        <span class="hljs-comment">// ..</span>
+    }
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-101">
+    <section class="slide-content"><h3 id="players-prefiltered-by-page-creator-to-spain-can-now-be-filtered-by-end-user-based-on-olympics">Players (prefiltered by page creator to Spain) can now be filtered by end user based on Olympics</h3>
+<p><img 
+  src="./images/players-spain.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-102">
+    <section class="slide-content"><h3 id="players-prefiltered-by-page-creator-to-spain-filtered-by-end-user-to-tokyo-and-rio-olympics">Players (prefiltered by page creator to Spain) filtered by end user to Tokyo and Rio Olympics</h3>
+<p><img 
+  src="./images/players-spain-tokyo-rio.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-103">
+    <section class="slide-content"><h3 id="add-applied-filters-fragment">Add Applied Filters fragment</h3>
+<p><img 
+  src="./images/add-applied-filters.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-104">
+    <section class="slide-content"><h3 id="configure-target-collection-to-players-and-enable-clear-option">Configure target collection to Players and enable clear option</h3>
+<p><img 
+  src="./images/add-applied-filters-target-collection.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-105">
+    <section class="slide-content"><h3 id="applied-filters-fragment-displays-current-values-entered">Applied filters fragment displays current values entered</h3>
+<p><img 
+  src="./images/players-applied-filters.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-106">
+    <section class="slide-content"><h3 id="requirement">Requirement</h3>
+<p>Let end user filter Players based on the Olympics where they participated and
+whether they won any gold, silver or bronze medals.</p>
+<h3 id="solution">Solution</h3>
+<p>Support Categories filter on PlayerCollectionProvider and allow end user to select Gold / Silver / Bronze in a drop down menu with multiple selection.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-107">
+    <section class="slide-content"><h3 id="add-int-arrays-to-player-with-years-when-each-type-of-medal-was-won">Add int arrays to Player with years when each type of medal was won</h3>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Player</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ClassedModel</span> </span>{
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Player</span><span class="hljs-params">(
+        <span class="hljs-keyword">long</span> id, String name, String image, String country, Olympics[] olympics,
+        <span class="hljs-keyword">int</span>[] goldMedals, <span class="hljs-keyword">int</span>[] silverMedals, <span class="hljs-keyword">int</span>[] bronzeMedals)</span> </span>{
+        <span class="hljs-comment">// ..</span>
+        _goldMedals = goldMedals;
+        _silverMedals = silverMedals;
+        _bronzeMedals = bronzeMedals;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span>[] getBronzeMedals() {
+        <span class="hljs-keyword">return</span> _bronzeMedals;
+    }
+    <span class="hljs-comment">// ..</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span>[] getSilverMedals() {
+        <span class="hljs-keyword">return</span> _silverMedals;
+    }
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span>[] _bronzeMedals;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span>[] _goldMedals;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span>[] _silverMedals;
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-108">
+    <section class="slide-content"><h3 id="add-categoriesinfofilter-to-the-list-of-supported-infofilters">Add CategoriesInfoFilter to the list of supported InfoFilters</h3>
+<pre><code class="lang-java"><span class="hljs-meta">@Component</span>(immediate = <span class="hljs-keyword">true</span>, service = InfoCollectionProvider.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerCollectionProvider</span>
+    <span class="hljs-keyword">implements</span> <span class="hljs-title">ConfigurableInfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt;,
+               <span class="hljs-title">FilteredInfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt; </span>{
+
+    <span class="hljs-comment">// ..</span>
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;InfoFilter&gt; <span class="hljs-title">getSupportedInfoFilters</span><span class="hljs-params">()</span> </span>{
+        List&lt;InfoFilter&gt; infoFilters = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+
+        infoFilters.add(<span class="hljs-keyword">new</span> CategoriesInfoFilter());
+        infoFilters.add(<span class="hljs-keyword">new</span> KeywordsInfoFilter());
+
+        <span class="hljs-keyword">return</span> infoFilters;
+    }
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-109">
+    <section class="slide-content"><h3 id="create-medals-vocabulary-with-gold-silver-and-bronze-as-categories">Create Medals Vocabulary with Gold, Silver and Bronze as categories</h3>
+<p><img 
+  src="./images/vocabulary-medals.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-110">
+    <section class="slide-content"><h3 id="add-a-second-collection-filter">Add a second Collection filter</h3>
+<p><img 
+  src="./images/add-collection-filter-2.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-111">
+    <section class="slide-content"><h3 id="select-players-as-target-collection-and-category-as-filter">Select Players as target collection and Category as filter</h3>
+<p><img 
+  src="./images/add-collection-filter-2-category.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-112">
+    <section class="slide-content"><h3 id="select-medals-as-source">Select Medals as source</h3>
+<p><img 
+  src="./images/add-collection-filter-2-category-source.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-113">
+    <section class="slide-content"><h3 id="specify-medals-as-label">Specify Medals as label</h3>
+<p><img 
+  src="./images/add-collection-filter-2-category-label.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-114">
+    <section class="slide-content"><h3 id="filter-players-based-on-the-medals-specified-in-categories-filter-1-">Filter players based on the Medals specified in Categories Filter (1)</h3>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerCollectionProvider</span>
+        <span class="hljs-keyword">implements</span> <span class="hljs-title">ConfigurableInfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt;,
+        <span class="hljs-title">FilteredInfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt; </span>{
+  <span class="hljs-function"><span class="hljs-keyword">public</span> InfoPage&lt;Player&gt; <span class="hljs-title">getCollectionInfoPage</span><span class="hljs-params">(CollectionQuery collectionQuery)</span> </span>{
+    <span class="hljs-comment">// ..</span>
+    Optional&lt;CategoriesInfoFilter&gt; categoriesInfoFilterOptional =
+            collectionQuery.getInfoFilterOptional(CategoriesInfoFilter.class);
+
+    <span class="hljs-keyword">if</span> (categoriesInfoFilterOptional.isPresent()) {
+      CategoriesInfoFilter categoriesInfoFilter = categoriesInfoFilterOptional.get();
+
+      <span class="hljs-keyword">long</span>[] categoryIds = ArrayUtil.append(categoriesInfoFilter.getCategoryIds());
+
+      categoryIds = ArrayUtil.unique(categoryIds);
+
+      LongStream longStream = Arrays.stream(categoryIds);
+
+      List&lt;String&gt; categoryNames = longStream.mapToObj(
+              categoryId -&gt; _assetCategoryService.fetchCategory(categoryId)
+      ).filter(Objects::nonNull).map(AssetCategory::getName).collect(Collectors.toList());
+      <span class="hljs-comment">// [continues]</span>
+    }
+    <span class="hljs-comment">// ..</span>
+  }
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-115">
+    <section class="slide-content"><h3 id="filter-players-based-on-the-medals-specified-in-categories-filter-2-">Filter players based on the Medals specified in Categories Filter (2)</h3>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerCollectionProvider</span>
+    <span class="hljs-keyword">implements</span> <span class="hljs-title">ConfigurableInfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt;, 
+               <span class="hljs-title">FilteredInfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt; </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> InfoPage&lt;Player&gt; <span class="hljs-title">getCollectionInfoPage</span><span class="hljs-params">(CollectionQuery collectionQuery)</span> </span>{ <span class="hljs-comment">//..</span>
+        <span class="hljs-keyword">if</span> (categoriesInfoFilterOptional.isPresent()) { <span class="hljs-comment">// [continued]</span>
+            <span class="hljs-keyword">if</span> (!categoryNames.isEmpty()) {
+                Stream&lt;Player&gt; stream = filteredPlayers.stream();
+                filteredPlayers = stream.filter(player -&gt; {
+                        <span class="hljs-keyword">boolean</span> matches = <span class="hljs-keyword">true</span>;
+                        <span class="hljs-keyword">for</span> (String categoryName : categoryNames) {
+                            <span class="hljs-keyword">if</span> (categoryName.equals(<span class="hljs-string">"Gold"</span>)) {
+                                <span class="hljs-keyword">int</span>[] goldMedals = player.getGoldMedals();
+                                matches = matches &amp;&amp; (goldMedals.length &gt; <span class="hljs-number">0</span>);
+                            }
+                            <span class="hljs-comment">// ..</span>
+                            <span class="hljs-keyword">if</span> (categoryName.equals(<span class="hljs-string">"Bronze"</span>)) {
+                                <span class="hljs-keyword">int</span>[] goldMedals = player.getBronzeMedals();
+                                matches = matches &amp;&amp; (goldMedals.length &gt; <span class="hljs-number">0</span>);
+                            }
+                        }
+                        <span class="hljs-keyword">return</span> matches;
+                    }
+                ).collect(Collectors.toList());
+            }
+        } <span class="hljs-comment">// ..</span>
+    }
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-116">
+    <section class="slide-content"><h3 id="players-prefiltered-by-page-creator-to-spain-can-now-be-filtered-by-end-user-based-on-olympics-and-medals">Players (prefiltered by page creator to Spain) can now be filtered by end user based on Olympics and Medals</h3>
+<p><img 
+  src="./images/players-spain-tokyo-silver-bronze-1.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-117">
+    <section class="slide-content"><h3 id="players-prefiltered-by-page-creator-to-spain-filtered-by-end-user-to-tokyo-who-have-won-bronze-and-silver-medals">Players (prefiltered by page creator to Spain) filtered by end user to Tokyo, who have won Bronze and Silver medals</h3>
+<p><img 
+  src="./images/players-spain-tokyo-silver-bronze-2.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-118">
+    <section class="slide-content"><h3 id="what-we-will-be-covering-2-mark-filtering-mark-">What we will be covering (2): <mark>Filtering<mark></h3>
+<ul>
+<li><strong>Pre filter</strong> the items returned by collection providers ✔</li>
+<li>Use Collection Filter fragments to <strong>allow end users to filter</strong> collection items themselves ✔</li>
+<li>Make an existing Collection Provider <strong>compatible with a filter</strong> (e.g: Keywords and Categories filters) ✔</li>
+<li><mark>Create a <strong>new type of filter</strong> and make a Collection Provider compatible with it</mark></li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-119">
+    <section class="slide-content"><h3 id="requirement">Requirement</h3>
+<p>Filter Players based on a range of total medals won</p>
+<h3 id="solution">Solution</h3>
+<p>Create new Filter that allows setting a minimum and maximum value for number of medals and filter players returned by  PlayerCollectionProvider based on values selected</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-120">
+    <section class="slide-content"><ul>
+<li>Create class implementing InfoFilter</li>
+<li>Create class implementing InfoFilterProvider</li>
+<li>Create UI for filter using technology of your liking</li>
+<li>Connect UI with backend by calling <code>getCollectionFilterValue</code> and <code>setCollectionFilterValue</code></li>
+<li>Create NumericRangeFragmentCollectionFilter implementing FragmentCollectionFilter </li>
+<li>Add new filter to list of supported filters in CollectionProvider </li>
+<li>Return items that match filter&#39;s values in CollectionProvider</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-121">
+    <section class="slide-content"><h3 id="create-numericrangeinfofilter-class-implementing-infofilter">Create NumericRangeInfoFilter class implementing InfoFilter</h3>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NumericRangeInfoFilter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">InfoFilter</span> </span>{
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String FILTER_TYPE_NAME = <span class="hljs-string">"numericRange"</span>;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getFilterTypeName</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> FILTER_TYPE_NAME;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getMax</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> _max;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getMin</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> _min;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setMax</span><span class="hljs-params">(<span class="hljs-keyword">int</span> max)</span> </span>{
+        _max = max;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setMin</span><span class="hljs-params">(<span class="hljs-keyword">int</span> min)</span> </span>{
+        _min = min;
+    }
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> _max;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> _min;
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-122">
+    <section class="slide-content"><h3 id="create-numericrangeinfofilterprovider">Create NumericRangeInfoFilterProvider</h3>
+<pre><code class="lang-java"><span class="hljs-meta">@Component</span>(immediate = <span class="hljs-keyword">true</span>, service = InfoFilterProvider.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NumericRangeInfoFilterProvider</span> 
+        <span class="hljs-keyword">implements</span> <span class="hljs-title">InfoFilterProvider</span>&lt;<span class="hljs-title">NumericRangeInfoFilter</span>&gt; </span>{
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> NumericRangeInfoFilter <span class="hljs-title">create</span><span class="hljs-params">(Map&lt;String, String[]&gt; values)</span> </span>{
+        NumericRangeInfoFilter numericRangeInfoFilter = <span class="hljs-keyword">new</span> NumericRangeInfoFilter();
+        <span class="hljs-keyword">for</span> (Map.Entry&lt;String, String[]&gt; entry : values.entrySet()) {
+            <span class="hljs-keyword">if</span> (StringUtil.startsWith(
+                    entry.getKey(), NumericRangeInfoFilter.FILTER_TYPE_NAME + <span class="hljs-string">"_"</span>)) {
+                String[] value = entry.getValue();
+                <span class="hljs-keyword">if</span> ((value != <span class="hljs-keyword">null</span>) &amp;&amp; (value.length &gt; <span class="hljs-number">0</span>)) {
+                    String[] valueParts = value[<span class="hljs-number">0</span>].split(<span class="hljs-string">"-"</span>);
+                    <span class="hljs-keyword">if</span> (valueParts.length &gt; <span class="hljs-number">0</span>) {
+                        numericRangeInfoFilter.setMin(
+                            GetterUtil.getInteger(valueParts[<span class="hljs-number">0</span>], -<span class="hljs-number">1</span>));
+                    } <span class="hljs-keyword">else</span> {
+                        numericRangeInfoFilter.setMin(-<span class="hljs-number">1</span>);
+                    }
+                    <span class="hljs-comment">// ..</span>
+                }
+                <span class="hljs-keyword">return</span> numericRangeInfoFilter;
+            }
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    }
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-123">
+    <section class="slide-content"><h3 id="create-ui-for-filter-using-technology-of-your-liking-page-jsp-1-">Create UI for filter using technology of your liking: page.jsp (1)</h3>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">%</span>
+<span class="hljs-attr">FragmentRendererContext</span> <span class="hljs-attr">fragmentRendererContext</span> = 
+    <span class="hljs-string">(FragmentRendererContext)request.getAttribute(FragmentRendererContext.class.getName());</span>
+<span class="hljs-attr">FragmentEntryLink</span> <span class="hljs-attr">fragmentEntryLink</span> = <span class="hljs-string">fragmentRendererContext.getFragmentEntryLink();</span>
+<span class="hljs-attr">String</span> <span class="hljs-attr">fragmentEntryLinkNamespace</span> = 
+    <span class="hljs-string">fragmentEntryLink.getNamespace()</span> + <span class="hljs-attr">fragmentEntryLink.getFragmentEntryLinkId</span>();
+%&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"&lt;%= fragmentEntryLinkNamespace %&gt;form"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">%=</span> <span class="hljs-attr">LanguageUtil.get</span>(<span class="hljs-attr">request</span>, "<span class="hljs-attr">number-of-medals</span>") %&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">%=</span> <span class="hljs-attr">LanguageUtil.get</span>(<span class="hljs-attr">request</span>, "<span class="hljs-attr">minimum</span>") %&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"min"</span> <span class="hljs-attr">max</span>=<span class="hljs-string">"28"</span> <span class="hljs-attr">min</span>=<span class="hljs-string">"0"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"min"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"number"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">%=</span> <span class="hljs-attr">LanguageUtil.get</span>(<span class="hljs-attr">request</span>, "<span class="hljs-attr">maximum</span>") %&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"max"</span> <span class="hljs-attr">max</span>=<span class="hljs-string">"28"</span> <span class="hljs-attr">min</span>=<span class="hljs-string">"0"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"max"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"number"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-124">
+    <section class="slide-content"><h3 id="create-ui-for-filter-using-technology-of-your-liking-page-jsp-2-">Create UI for filter using technology of your liking: page.jsp (2)</h3>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">liferay-frontend:component</span>
+    <span class="hljs-attr">context</span>=<span class="hljs-string">'&lt;%=
+        HashMapBuilder.&lt;String, Object&gt;put(
+            "fragmentEntryLinkId", fragmentEntryLink.getFragmentEntryLinkId()
+        ).put(
+            "fragmentEntryLinkNamespace", fragmentEntryLinkNamespace
+        ).build()
+    %&gt;'</span>
+    <span class="hljs-attr">module</span>=<span class="hljs-string">"NumericRangeFilter"</span>
+/&gt;</span>
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-125">
+    <section class="slide-content"><h3 id="fill-ui-with-value-from-url-value-calling-getcollectionfiltervalue">Fill UI with value from URL value calling <code>getCollectionFilterValue</code></h3>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> {getCollectionFilterValue, setCollectionFilterValue,} 
+  <span class="hljs-keyword">from</span> <span class="hljs-string">'@liferay/fragment-renderer-collection-filter-impl'</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">NumericRangeFilter</span>(<span class="hljs-params">
+    {fragmentEntryLinkId, fragmentEntryLinkNamespace,}</span>) </span>{
+    <span class="hljs-keyword">const</span> form = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">`<span class="hljs-subst">${fragmentEntryLinkNamespace}</span>form`</span>);
+    <span class="hljs-keyword">const</span> minInput = form &amp;&amp; form.elements[<span class="hljs-string">'min'</span>];
+    <span class="hljs-keyword">const</span> maxInput = form &amp;&amp; form.elements[<span class="hljs-string">'max'</span>];
+    <span class="hljs-keyword">if</span> (!form || (!minInput &amp;&amp; !maxInput)) {<span class="hljs-keyword">return</span>;}
+    <span class="hljs-keyword">const</span> urlValue = getCollectionFilterValue(<span class="hljs-string">'numericRange'</span>, fragmentEntryLinkId);
+    <span class="hljs-keyword">if</span> (urlValue !== <span class="hljs-literal">null</span>) {
+        <span class="hljs-keyword">const</span> parts = urlValue.split(<span class="hljs-string">'-'</span>);
+        minInput.value = <span class="hljs-built_in">isNaN</span>(parts[<span class="hljs-number">0</span>]) ? <span class="hljs-string">''</span> : parts[<span class="hljs-number">0</span>];
+        maxInput.value = <span class="hljs-built_in">isNaN</span>(parts[<span class="hljs-number">1</span>]) ? <span class="hljs-string">''</span> : parts[<span class="hljs-number">1</span>];
+    }
+    <span class="hljs-comment">// ..</span>
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-126">
+    <section class="slide-content"><h3 id="get-value-from-ui-and-set-it-on-url-by-calling-setcollectionfiltervalue">Get value from UI and set it on URL by calling <code>setCollectionFilterValue</code></h3>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> {getCollectionFilterValue, setCollectionFilterValue,} 
+  <span class="hljs-keyword">from</span> <span class="hljs-string">'@liferay/fragment-renderer-collection-filter-impl'</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">NumericRangeFilter</span>(<span class="hljs-params">
+    {fragmentEntryLinkId, fragmentEntryLinkNamespace,}</span>) </span>{
+    <span class="hljs-keyword">const</span> form = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">`<span class="hljs-subst">${fragmentEntryLinkNamespace}</span>form`</span>);
+    <span class="hljs-keyword">const</span> minInput = form &amp;&amp; form.elements[<span class="hljs-string">'min'</span>];
+    <span class="hljs-keyword">const</span> maxInput = form &amp;&amp; form.elements[<span class="hljs-string">'max'</span>];
+    <span class="hljs-comment">// ..</span>
+    <span class="hljs-keyword">const</span> handleChange = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        setCollectionFilterValue(
+            <span class="hljs-string">'numericRange'</span>, fragmentEntryLinkId, <span class="hljs-string">`<span class="hljs-subst">${minInput.value}</span>-<span class="hljs-subst">${maxInput.value}</span>`</span>);};
+    form.addEventListener(<span class="hljs-string">'change'</span>, handleChange);
+    <span class="hljs-keyword">return</span> {
+        dispose() {form.removeEventListener(<span class="hljs-string">'change'</span>, handleChange);},
+    };
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-127">
+    <section class="slide-content"><h4 id="numericrangefragmentcollectionfilter">NumericRangeFragmentCollectionFilter</h4>
+<pre><code class="lang-java"><span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NumericRangeFragmentCollectionFilter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">FragmentCollectionFilter</span> </span>{
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getFilterKey</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"numericRange"</span>;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getLabel</span><span class="hljs-params">(Locale locale)</span> </span>{
+        <span class="hljs-keyword">return</span> LanguageUtil.get(locale, <span class="hljs-string">"numeric-range"</span>);
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">render</span><span class="hljs-params">(FragmentRendererContext fragmentRendererContext,
+        HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)</span> </span>{
+        <span class="hljs-keyword">try</span> {
+            RequestDispatcher requestDispatcher =
+                _servletContext.getRequestDispatcher(<span class="hljs-string">"/page.jsp"</span>);
+
+            requestDispatcher.include(httpServletRequest, httpServletResponse);
+        }
+        <span class="hljs-keyword">catch</span> (Exception exception) {}
+    }
+
+    <span class="hljs-meta">@Reference</span>(target = <span class="hljs-string">"(osgi.web.symbolicname=com.liferay.player.web)"</span>)
+    <span class="hljs-keyword">private</span> ServletContext _servletContext;
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-128">
+    <section class="slide-content"><h3 id="add-numericrangeinfofilter-to-the-list-of-supported-infofilters">Add NumericRangeInfoFilter to the list of supported InfoFilters</h3>
+<pre><code class="lang-java"><span class="hljs-meta">@Component</span>(immediate = <span class="hljs-keyword">true</span>, service = InfoCollectionProvider.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerCollectionProvider</span>
+    <span class="hljs-keyword">implements</span> <span class="hljs-title">ConfigurableInfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt;,
+               <span class="hljs-title">FilteredInfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt; </span>{
+
+    <span class="hljs-comment">// ..</span>
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;InfoFilter&gt; <span class="hljs-title">getSupportedInfoFilters</span><span class="hljs-params">()</span> </span>{
+        List&lt;InfoFilter&gt; infoFilters = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+
+        infoFilters.add(<span class="hljs-keyword">new</span> CategoriesInfoFilter());
+        infoFilters.add(<span class="hljs-keyword">new</span> KeywordsInfoFilter());
+        infoFilters.add(<span class="hljs-keyword">new</span> NumericRangeInfoFilter());
+
+        <span class="hljs-keyword">return</span> infoFilters;
+    }
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-129">
+    <section class="slide-content"><h3 id="add-collection-filter">Add Collection Filter</h3>
+<p><img 
+  src="./images/add-collection-filter-numeric-range.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-130">
+    <section class="slide-content"><h3 id="select-players-as-target-collection">Select Players as target collection</h3>
+<p><img 
+  src="./images/add-collection-filter-numeric-range-target-collection.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-131">
+    <section class="slide-content"><h3 id="select-numeric-range-as-filter">Select Numeric Range as filter</h3>
+<p><img 
+  src="./images/add-collection-filter-type-numeric-range.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-132">
+    <section class="slide-content"><h3 id="return-items-that-match-filter-s-values-in-collectionprovider">Return items that match filter&#39;s values in CollectionProvider</h3>
+<pre><code class="lang-java"><span class="hljs-meta">@Component</span>(immediate = <span class="hljs-keyword">true</span>, service = InfoCollectionProvider.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerCollectionProvider</span>
+    <span class="hljs-keyword">implements</span> <span class="hljs-title">ConfigurableInfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt;,
+               <span class="hljs-title">FilteredInfoCollectionProvider</span>&lt;<span class="hljs-title">Player</span>&gt; </span>{
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> InfoPage&lt;Player&gt; <span class="hljs-title">getCollectionInfoPage</span><span class="hljs-params">(CollectionQuery collectionQuery)</span> </span>{<span class="hljs-comment">// ..</span>
+        Optional&lt;NumericRangeInfoFilter&gt; optional =
+            collectionQuery.getInfoFilterOptional(NumericRangeInfoFilter.class);
+        <span class="hljs-keyword">if</span> (optional.isPresent()) {
+            NumericRangeInfoFilter numericRangeInfoFilter = optional.get();
+            <span class="hljs-keyword">int</span> min = numericRangeInfoFilter.getMin();
+            <span class="hljs-keyword">int</span> max = numericRangeInfoFilter.getMax();
+            <span class="hljs-keyword">if</span> ((min != -<span class="hljs-number">1</span>) || (max != -<span class="hljs-number">1</span>)) {
+                Stream&lt;Player&gt; stream = filteredPlayers.stream();
+                filteredPlayers = stream.filter(player -&gt; {
+                    <span class="hljs-keyword">boolean</span> matches = <span class="hljs-keyword">true</span>;
+                    <span class="hljs-keyword">int</span> totalMedals = player.getGoldMedals().length +
+                        player.getSilverMedals().length + player.getBronzeMedals().length;
+                    <span class="hljs-keyword">if</span> (min != -<span class="hljs-number">1</span>) {matches = matches &amp;&amp; (totalMedals &gt;= min);}
+                    <span class="hljs-keyword">if</span> (max != -<span class="hljs-number">1</span>) {matches = matches &amp;&amp; (totalMedals &lt;= max);}
+                    <span class="hljs-keyword">return</span> matches;
+                  }).collect(Collectors.toList());
+            }
+        }<span class="hljs-comment">// ..</span>
+    }
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-133">
+    <section class="slide-content"><h3 id="players-prefiltered-by-page-creator-to-spain-filtered-by-end-user-to-tokyo-who-have-won-bronze-and-silver-medals-and-at-least-3-medals-and-at-most-4-medals">Players (prefiltered by page creator to Spain) filtered by end user to Tokyo, who have won Bronze and Silver medals, and at least 3 medals and at most 4 medals</h3>
+<p><img 
+  src="./images/players-spain-tokyo-silver-bronze-min-3-max-4.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-134">
+    <section class="slide-content"><h3 id="what-we-will-be-covering-3-mark-related-items-mark-">What we will be covering (3): <mark>Related Items</mark></h3>
+<ul>
+<li><mark>Display <strong>items related</strong> to one specific item using Related Items Collection Providers</mark></li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-135">
+    <section class="slide-content"><h3 id="requirement">Requirement</h3>
+<p>Display the logos of the Olympics where each player participated</p>
+<h3 id="solution">Solution</h3>
+<p>Create a Related Items Collection Provider that given a Player returns list of Olympics he participated</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-136">
+    <section class="slide-content"><h3 id="make-olympics-mappable-analogous-to-player-">Make Olympics mappable (analogous to Player)</h3>
+<ul>
+<li>Create OlympicsInfoFields class</li>
+<li>Create OlympicsInfoItemFormProvider class</li>
+<li>Create OlympicsInfoItemFieldValuesProvider class</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-137">
+    <section class="slide-content"><h4 id="olympicswhereplayerparticipatedcollectionprovider">OlympicsWherePlayerParticipatedCollectionProvider</h4>
+<pre><code class="lang-java"><span class="hljs-meta">@Component</span>(immediate = <span class="hljs-keyword">true</span>, service = RelatedInfoItemCollectionProvider.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OlympicsWherePlayerParticipatedCollectionProvider</span>
+    <span class="hljs-keyword">implements</span> <span class="hljs-title">RelatedInfoItemCollectionProvider</span>&lt;<span class="hljs-title">Player</span>, <span class="hljs-title">Olympics</span>&gt; </span>{
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> InfoPage&lt;Olympics&gt; <span class="hljs-title">getCollectionInfoPage</span><span class="hljs-params">(CollectionQuery collectionQuery)</span> </span>{
+        Optional&lt;Object&gt; relatedItemOptional =
+            collectionQuery.getRelatedItemObjectOptional();
+
+        Object relatedItem = relatedItemOptional.orElse(<span class="hljs-keyword">null</span>);
+
+        <span class="hljs-keyword">if</span> (!(relatedItem <span class="hljs-keyword">instanceof</span> Player)) {
+            <span class="hljs-keyword">return</span> InfoPage.of(Collections.emptyList());
+        }
+
+        Player player = (Player)relatedItem;
+
+        <span class="hljs-keyword">return</span> InfoPage.of(Arrays.asList(player.getOlympics()));
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getLabel</span><span class="hljs-params">(Locale locale)</span> </span>{
+        <span class="hljs-keyword">return</span> LanguageUtil.get(locale, <span class="hljs-string">"olympics-where-a-player-participated"</span>);
+    }
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-138">
+    <section class="slide-content"><h3 id="add-collection-display-under-existing-collection-item">Add Collection Display under existing Collection Item</h3>
+<p><img 
+  src="./images/related-collection-add-collection-display.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-139">
+    <section class="slide-content"><h3 id="select-collection-1-">Select collection (1)</h3>
+<p><img 
+  src="./images/related-collection-collection-display-select-collection.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-140">
+    <section class="slide-content"><h3 id="select-collection-2-">Select collection (2)</h3>
+<p><img 
+  src="./images/related-collection-collection-display-select-collection-2.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-141">
+    <section class="slide-content"><h3 id="select-3-columns-layout">Select 3 Columns layout</h3>
+<p><img 
+  src="./images/related-collection-collection-display-layout-3-columns.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-142">
+    <section class="slide-content"><h3 id="add-image-and-set-padding">Add image and set padding</h3>
+<p><img 
+  src="./images/related-collection-collection-display-image-padding-2.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-143">
+    <section class="slide-content"><h3 id="map-image-to-olympics-image-field">Map image to Olympics image field</h3>
+<p><img 
+  src="./images/related-collection-collection-display-image-mapping.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-144">
+    <section class="slide-content"><h3 id="logos-of-olympics-in-which-players-participated-are-now-displayed">Logos of Olympics in which players participated are now displayed</h3>
+<p><img 
+  src="./images/related-collection-olympics-view.png" 
+  alt="Player Collection Provider" 
+  style="max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-145">
+    <section class="slide-content"><h4 id="related-items-collection-providers-can-be-used-">Related Items Collection Providers can be used:</h4>
+<ul>
+<li>Within a collection item of a Collection Display fragment</li>
+<li>Within a Display Page Template</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-146">
+    <section class="slide-content"><h3 id="recap-">Recap:</h3>
+<ul>
+<li><strong>Pagination</strong> ✔</li>
+<li><strong>Filtering</strong> ✔</li>
+<li><strong>Related Items</strong> ✔</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-147">
+    <section class="slide-content"><h3 id="thank-you-">Thank you!</h3>
+<p><img 
+  src="./images/echo-team-members.png" 
+  alt="Thank you!" 
+  style="margin-left:auto;margin-right:auto;display:block;max-height:470px;max-width:800px;height:auto;width:auto;" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-148">
+    <section class="slide-content"><h3 id="image-sources">Image sources</h3>
+<ul>
+<li><a href="https://olympics.com/">https://olympics.com/</a></li>
+<li><a href="https://www.themoviedb.org/movie/114887-the-dream-team">https://www.themoviedb.org/movie/114887-the-dream-team</a></li>
+<li><a href="https://www.fiba.basketball/eurobasket/2022/news/fiba-eurobasket-dream-teams-spain">https://www.fiba.basketball/eurobasket/2022/news/fiba-eurobasket-dream-teams-spain</a></li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden author-slide" id="slide-149">
+    <section class="slide-content"><div class="author">
+  <h1 class="name">Rubén Pulido</h1>
+</div>
+</section>
+  </div>
+
+
+
+  <script type="text/javascript">
+    /**
+ * Returns the current page number of the presentation.
+ */
+function currentPosition() {
+  return parseInt(document.querySelector('.slide:not(.hidden)').id.slice(6));
+}
+
+
+/**
+ * Navigates forward n pages
+ * If n is negative, we will navigate in reverse
+ */
+function navigate(n) {
+  var position = currentPosition();
+  var numSlides = document.getElementsByClassName('slide').length;
+
+  /* Positions are 1-indexed, so we need to add and subtract 1 */
+  var nextPosition = (position - 1 + n) % numSlides + 1;
+
+  /* Normalize nextPosition in-case of a negative modulo result */
+  nextPosition = (nextPosition - 1 + numSlides) % numSlides + 1;
+
+  document.getElementById('slide-' + position).classList.add('hidden');
+  document.getElementById('slide-' + nextPosition).classList.remove('hidden');
+
+  updateProgress();
+  updateURL();
+  updateTabIndex();
+}
+
+
+/**
+ * Updates the current URL to include a hashtag of the current page number.
+ */
+function updateURL() {
+  try {
+    window.history.replaceState({} , null, '#' + currentPosition());
+  } catch (e) {
+    window.location.hash = currentPosition();
+  }
+}
+
+
+/**
+ * Sets the progress indicator.
+ */
+function updateProgress() {
+  var progressBar = document.querySelector('.progress-bar');
+
+  if (progressBar !== null) {
+    var numSlides = document.getElementsByClassName('slide').length;
+    var position = currentPosition() - 1;
+    var percent = (numSlides === 1) ? 100 : 100 * position / (numSlides - 1);
+    progressBar.style.width = percent.toString() + '%';
+  }
+}
+
+
+/**
+ * Removes tabindex property from all links on the current slide, sets
+ * tabindex = -1 for all links on other slides. Prevents slides from appearing
+ * out of control.
+ */
+function updateTabIndex() {
+  var allLinks = document.querySelectorAll('.slide a');
+  var position = currentPosition();
+  var currentPageLinks = document.getElementById('slide-' + position).querySelectorAll('a');
+  var i;
+
+  for (i = 0; i < allLinks.length; i++) {
+    allLinks[i].setAttribute('tabindex', -1);
+  }
+
+  for (i = 0; i < currentPageLinks.length; i++) {
+    currentPageLinks[i].removeAttribute('tabindex');
+  }
+}
+
+/**
+ * Determines whether or not we are currently in full screen mode
+ */
+function isFullScreen() {
+  return document.fullscreenElement ||
+         document.mozFullScreenElement ||
+         document.webkitFullscreenElement ||
+         document.msFullscreenElement;
+}
+
+/**
+ * Toggle fullScreen mode on document element.
+ * Works on chrome (>= 15), firefox (>= 9), ie (>= 11), opera(>= 12.1), safari (>= 5).
+ */
+function toggleFullScreen() {
+  /* Convenient renames */
+  var docElem = document.documentElement;
+  var doc = document;
+
+  docElem.requestFullscreen =
+      docElem.requestFullscreen ||
+      docElem.msRequestFullscreen ||
+      docElem.mozRequestFullScreen ||
+      docElem.webkitRequestFullscreen.bind(docElem, Element.ALLOW_KEYBOARD_INPUT);
+
+  doc.exitFullscreen =
+      doc.exitFullscreen ||
+      doc.msExitFullscreen ||
+      doc.mozCancelFullScreen ||
+      doc.webkitExitFullscreen;
+
+  isFullScreen() ? doc.exitFullscreen() : docElem.requestFullscreen();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Update the tabindex to prevent weird slide transitioning
+  updateTabIndex();
+
+  // If the location hash specifies a page number, go to it.
+  var page = window.location.hash.slice(1);
+  if (page) {
+    navigate(parseInt(page) - 1);
+  }
+
+  document.onkeydown = function (e) {
+    var kc = e.keyCode;
+
+    // left, down, H, J, backspace, PgUp - BACK
+    // up, right, K, L, space, PgDn - FORWARD
+    // enter - FULLSCREEN
+    if (kc === 37 || kc === 40 || kc === 8 || kc === 72 || kc === 74 || kc === 33) {
+      navigate(-1);
+    } else if (kc === 38 || kc === 39 || kc === 32 || kc === 75 || kc === 76 || kc === 34) {
+      navigate(1);
+    } else if (kc === 13) {
+      toggleFullScreen();
+    }
+  };
+
+  if (document.querySelector('.next') && document.querySelector('.prev')) {
+    document.querySelector('.next').onclick = function (e) {
+      e.preventDefault();
+      navigate(1);
+    };
+
+    document.querySelector('.prev').onclick = function (e) {
+      e.preventDefault();
+      navigate(-1);
+    };
+  }
+});
+
+
+  </script>
+</body>
+</html>
