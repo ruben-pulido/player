@@ -41,6 +41,14 @@ public class PlayerInfoItemFormProvider
 				PlayerInfoFields.imageInfoField
 			).infoFieldSetEntry(
 				PlayerInfoFields.countryInfoField
+			).infoFieldSetEntry(
+				PlayerInfoFields.numberOfMedalsInfoField
+			).infoFieldSetEntry(
+				PlayerInfoFields.numberOfGoldMedalsInfoField
+			).infoFieldSetEntry(
+				PlayerInfoFields.numberOfSilverMedalsInfoField
+			).infoFieldSetEntry(
+				PlayerInfoFields.numberOfBronzeMedalsInfoField
 			).labelInfoLocalizedValue(
 				InfoLocalizedValue.localize(PlayerInfoFields.class, "player")
 			).build()

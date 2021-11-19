@@ -77,6 +77,22 @@ public class Player implements ClassedModel {
 		return _name;
 	}
 
+	public int getNumberOfBronzeMedals() {
+		return _bronzeMedals.length;
+	}
+
+	public int getNumberOfGoldMedals() {
+		return _goldMedals.length;
+	}
+
+	public int getNumberOfMedals() {
+		return _goldMedals.length + _silverMedals.length + _bronzeMedals.length;
+	}
+
+	public int getNumberOfSilverMedals() {
+		return _silverMedals.length;
+	}
+
 	public Olympics[] getOlympics() {
 		return _olympics;
 	}

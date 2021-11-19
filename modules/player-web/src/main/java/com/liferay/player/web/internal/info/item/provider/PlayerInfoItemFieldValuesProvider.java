@@ -57,6 +57,22 @@ public class PlayerInfoItemFieldValuesProvider
 		infoFieldValues.add(
 			new InfoFieldValue<>(
 				PlayerInfoFields.countryInfoField, player.getCountry()));
+		infoFieldValues.add(
+			new InfoFieldValue<>(
+				PlayerInfoFields.numberOfMedalsInfoField,
+				player.getNumberOfMedals()));
+		infoFieldValues.add(
+			new InfoFieldValue<>(
+				PlayerInfoFields.numberOfGoldMedalsInfoField,
+				player.getNumberOfGoldMedals()));
+		infoFieldValues.add(
+			new InfoFieldValue<>(
+				PlayerInfoFields.numberOfSilverMedalsInfoField,
+				player.getNumberOfSilverMedals()));
+		infoFieldValues.add(
+			new InfoFieldValue<>(
+				PlayerInfoFields.numberOfBronzeMedalsInfoField,
+				player.getNumberOfBronzeMedals()));
 
 		return infoFieldValues;
 	}
