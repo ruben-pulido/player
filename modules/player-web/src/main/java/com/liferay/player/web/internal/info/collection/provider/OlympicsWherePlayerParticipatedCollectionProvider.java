@@ -55,8 +55,7 @@ public class OlympicsWherePlayerParticipatedCollectionProvider
 
 	@Override
 	public String getLabel(Locale locale) {
-		return LanguageUtil.get(
-			locale, "olympics-where-a-player-participated");
+		return LanguageUtil.get(locale, "olympics-where-a-player-participated");
 	}
 
 }
