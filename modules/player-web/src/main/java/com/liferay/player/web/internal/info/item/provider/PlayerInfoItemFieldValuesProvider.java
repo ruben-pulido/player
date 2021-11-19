@@ -56,7 +56,7 @@ public class PlayerInfoItemFieldValuesProvider
 				PlayerInfoFields.nameInfoField, player.getName()));
 		infoFieldValues.add(
 			new InfoFieldValue<>(
-				PlayerInfoFields.countryInfoField, player.getName()));
+				PlayerInfoFields.countryInfoField, player.getCountry()));
 
 		return infoFieldValues;
 	}
