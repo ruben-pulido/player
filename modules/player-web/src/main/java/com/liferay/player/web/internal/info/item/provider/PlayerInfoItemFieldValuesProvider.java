@@ -21,11 +21,13 @@ import com.liferay.info.item.provider.InfoItemFieldValuesProvider;
 import com.liferay.info.type.WebImage;
 import com.liferay.player.web.internal.info.item.fields.PlayerInfoFields;
 import com.liferay.player.web.internal.model.Player;
+import com.liferay.template.info.item.provider.TemplateInfoItemFieldSetProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Rubén Pulido
@@ -73,8 +75,14 @@ public class PlayerInfoItemFieldValuesProvider
 			new InfoFieldValue<>(
 				PlayerInfoFields.numberOfBronzeMedalsInfoField,
 				player.getNumberOfBronzeMedals()));
+		infoFieldValues.addAll(
+			_templateInfoItemFieldSetProvider.getInfoFieldValues(
+				Player.class.getName(), player));
 
 		return infoFieldValues;
 	}
+
+	@Reference
+	private TemplateInfoItemFieldSetProvider _templateInfoItemFieldSetProvider;
 
 }
