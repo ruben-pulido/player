@@ -20,8 +20,10 @@ import com.liferay.info.item.provider.InfoItemFormProvider;
 import com.liferay.info.localized.InfoLocalizedValue;
 import com.liferay.player.web.internal.info.item.fields.PlayerInfoFields;
 import com.liferay.player.web.internal.model.Player;
+import com.liferay.template.info.item.provider.TemplateInfoItemFieldSetProvider;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Rubén Pulido
@@ -49,6 +51,9 @@ public class PlayerInfoItemFormProvider
 				PlayerInfoFields.numberOfSilverMedalsInfoField
 			).infoFieldSetEntry(
 				PlayerInfoFields.numberOfBronzeMedalsInfoField
+			).infoFieldSetEntry(
+				_templateInfoItemFieldSetProvider.getInfoFieldSet(
+					Player.class.getName())
 			).labelInfoLocalizedValue(
 				InfoLocalizedValue.localize(PlayerInfoFields.class, "player")
 			).build()
@@ -56,5 +61,8 @@ public class PlayerInfoItemFormProvider
 			"Player"
 		).build();
 	}
+
+	@Reference
+	private TemplateInfoItemFieldSetProvider _templateInfoItemFieldSetProvider;
 
 }
