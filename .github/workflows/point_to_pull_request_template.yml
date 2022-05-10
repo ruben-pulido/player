@@ -1,6 +1,9 @@
 name: Point to Pull Request Template
 
-on: pull_request
+on:
+  pull_request:
+    branches:
+    - master
 
 jobs:
   example_comment_pr:
