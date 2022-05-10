@@ -1,0 +1,17 @@
+name: Point to Pull Request Template
+
+on: pull_request
+
+jobs:
+  example_comment_pr:
+    runs-on: ubuntu-latest
+    name: An example job to comment a PR
+    steps:
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v1
+        with:
+          message: |
+            Thank you for submitting this PR. 👏 
+            
+            Make sure it follows the [Echo Pull Request Template](https://github.com/ruben-pulido/player/blob/pull_request_automation/.github/pull_request_template.md) if you haven't already done so.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
