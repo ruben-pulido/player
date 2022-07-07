@@ -19,7 +19,7 @@ import com.liferay.info.field.type.ImageInfoFieldType;
 import com.liferay.info.field.type.NumberInfoFieldType;
 import com.liferay.info.field.type.SelectInfoFieldType;
 import com.liferay.info.field.type.TextInfoFieldType;
-import com.liferay.info.localized.InfoLocalizedValue;
+import com.liferay.info.localized.*;
 import com.liferay.player.web.internal.model.Player;
 
 import java.util.ArrayList;
@@ -34,6 +34,8 @@ public class PlayerInfoFields {
 		InfoField.builder(
 		).infoFieldType(
 			SelectInfoFieldType.INSTANCE
+		).uniqueId(
+			"country"
 		).name(
 			"country"
 		).labelInfoLocalizedValue(
@@ -47,6 +49,8 @@ public class PlayerInfoFields {
 		InfoField.builder(
 		).infoFieldType(
 			ImageInfoFieldType.INSTANCE
+		).uniqueId(
+			"image"
 		).name(
 			"image"
 		).labelInfoLocalizedValue(
@@ -56,6 +60,8 @@ public class PlayerInfoFields {
 		InfoField.builder(
 		).infoFieldType(
 			TextInfoFieldType.INSTANCE
+		).uniqueId(
+			"name"
 		).name(
 			"name"
 		).labelInfoLocalizedValue(
@@ -65,6 +71,8 @@ public class PlayerInfoFields {
 		numberOfBronzeMedalsInfoField = InfoField.builder(
 		).infoFieldType(
 			NumberInfoFieldType.INSTANCE
+		).uniqueId(
+			"numberOfBronzeMedalsInfoField"
 		).name(
 			"numberOfBronzeMedalsInfoField"
 		).labelInfoLocalizedValue(
@@ -74,6 +82,8 @@ public class PlayerInfoFields {
 		numberOfGoldMedalsInfoField = InfoField.builder(
 		).infoFieldType(
 			NumberInfoFieldType.INSTANCE
+		).uniqueId(
+			"numberOfGoldMedalsInfoField"
 		).name(
 			"numberOfGoldMedalsInfoField"
 		).labelInfoLocalizedValue(
@@ -83,6 +93,8 @@ public class PlayerInfoFields {
 		InfoField.builder(
 		).infoFieldType(
 			NumberInfoFieldType.INSTANCE
+		).uniqueId(
+			"numberOfMedalsInfoField"
 		).name(
 			"numberOfMedalsInfoField"
 		).labelInfoLocalizedValue(
@@ -92,6 +104,8 @@ public class PlayerInfoFields {
 		numberOfSilverMedalsInfoField = InfoField.builder(
 		).infoFieldType(
 			NumberInfoFieldType.INSTANCE
+		).uniqueId(
+			"numberOfSilverMedalsInfoField"
 		).name(
 			"numberOfSilverMedalsInfoField"
 		).labelInfoLocalizedValue(
@@ -101,10 +115,18 @@ public class PlayerInfoFields {
 	private static List<SelectInfoFieldType.Option> _getCountryOptions() {
 		List<SelectInfoFieldType.Option> options = new ArrayList();
 
-		options.add(new SelectInfoFieldType.Option("Argentina", "Argentina"));
-		options.add(new SelectInfoFieldType.Option("China", "China"));
-		options.add(new SelectInfoFieldType.Option("Spain", "Spain"));
-		options.add(new SelectInfoFieldType.Option("USA", "USA"));
+		options.add(
+			new SelectInfoFieldType.Option(
+				new SingleValueInfoLocalizedValue<>("Argentina"), "Argentina"));
+		options.add(
+			new SelectInfoFieldType.Option(
+				new SingleValueInfoLocalizedValue<>("China"), "China"));
+		options.add(
+			new SelectInfoFieldType.Option(
+				new SingleValueInfoLocalizedValue<>("Spain"), "Spain"));
+		options.add(
+			new SelectInfoFieldType.Option(
+				new SingleValueInfoLocalizedValue<>("USA"), "USA"));
 
 		return options;
 	}

@@ -30,6 +30,8 @@ public class OlympicsInfoFields {
 		InfoField.builder(
 		).infoFieldType(
 			SelectInfoFieldType.INSTANCE
+		).uniqueId(
+			"city"
 		).name(
 			"city"
 		).labelInfoLocalizedValue(
@@ -39,6 +41,8 @@ public class OlympicsInfoFields {
 		InfoField.builder(
 		).infoFieldType(
 			ImageInfoFieldType.INSTANCE
+		).uniqueId(
+			"image"
 		).name(
 			"image"
 		).labelInfoLocalizedValue(
@@ -48,6 +52,8 @@ public class OlympicsInfoFields {
 		InfoField.builder(
 		).infoFieldType(
 			NumberInfoFieldType.INSTANCE
+		).uniqueId(
+			"year"
 		).name(
 			"year"
 		).labelInfoLocalizedValue(
